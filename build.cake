@@ -124,7 +124,7 @@ Task("Package")
             },
             BasePath = "./src/Cake.Talend/bin/" + configuration,
             OutputDirectory = artifactsDir
-        };      
+        };
       
         NuGetPack(cakeTalendPackSettings);
 });

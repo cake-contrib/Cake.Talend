@@ -32,6 +32,9 @@
     <DocumentationFile>bin\Release\Cake.Talend.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Cake.Common, Version=0.19.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cake.Common.0.19.3\lib\net45\Cake.Common.dll</HintPath>
+    </Reference>
     <Reference Include="Cake.Core, Version=0.19.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Cake.Core.0.19.3\lib\net45\Cake.Core.dll</HintPath>
       <Private>True</Private>
@@ -50,7 +53,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ITalendCommandLine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TalendCommandLine.cs" />
+    <Compile Include="TalendCommandLineSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
