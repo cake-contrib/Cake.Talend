@@ -48,7 +48,7 @@ namespace Cake.Talend
             }
 
             ITalendCommandLine cmdLine = new TalendCommandLine(context.Log, settings.TalendStudioPath, settings.Workspace, settings.User);
-            cmdLine.BuildJob(context, projectName, jobName, artifactDestination);
+            cmdLine.BuildJob(projectName, jobName, artifactDestination);
         }
 
     }

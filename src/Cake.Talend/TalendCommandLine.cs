@@ -3,6 +3,7 @@ using System;
 using Cake.Core.IO;
 using Cake.Common;
 using Cake.Core;
+using System.Text;
 
 namespace Cake.Talend
 {
@@ -67,11 +68,10 @@ namespace Cake.Talend
         /// <summary>
         /// Builds the specified job in the specified project and drops the resulting zip file in the destination directory.
         /// </summary>
-        /// <param name="cakeContext"></param>
         /// <param name="projectName"></param>
         /// <param name="jobName"></param>
         /// <param name="artifactDestination"></param>
-        public void BuildJob(ICakeContext cakeContext, string projectName, string jobName, DirectoryPath artifactDestination)
+        public void BuildJob(string projectName, string jobName, DirectoryPath artifactDestination)
         {
             if (string.IsNullOrWhiteSpace(projectName))
             {
@@ -83,18 +83,30 @@ namespace Cake.Talend
             }
 
             var commandString = CreateCommandString(projectName, $" buildJob \"{jobName}\" -dd \"{artifactDestination.FullPath}\"");
+            var argumentBuilder = new StringBuilder();
+            argumentBuilder.Append("-nosplash ");
+            argumentBuilder.Append("-application org.talend.commandline.CommandLine ");
+            argumentBuilder.Append("-consoleLog ");
+            argumentBuilder.Append("-data . ");
+            argumentBuilder.Append("\"" + commandString.Replace("\"", "\\\"") + "\"");
 
-            var argumentBuilder = new ProcessArgumentBuilder();
-            argumentBuilder.Append("-nosplash");
-            argumentBuilder.Append("-application org.talend.commandline.CommandLine");
-            argumentBuilder.Append("-consoleLog");
-            argumentBuilder.Append("-data .");
-            argumentBuilder.AppendQuoted(commandString);
+            var arguments = argumentBuilder.ToString();
+            _log.Debug(arguments);
+            System.Console.WriteLine(arguments);
 
-            var exitCode = cakeContext.StartProcess(_talendStudioPath, new ProcessSettings { WorkingDirectory = _talendWorkspace,  });
-            if(exitCode != 0)
+            var processInfo = new System.Diagnostics.ProcessStartInfo
             {
-                throw new Exception($"Failed to build talend job {jobName} of project {projectName}.");
+                Arguments = arguments,
+                WorkingDirectory = _talendWorkspace.FullPath,
+                FileName = _talendStudioPath.FullPath
+            };
+            using (var process = System.Diagnostics.Process.Start(processInfo))
+            {
+                process.WaitForExit();
+                if (process.ExitCode != 0)
+                {
+                    throw new Exception($"Failed to build talend job {jobName} of project {projectName}.");
+                }
             }
         }
     }

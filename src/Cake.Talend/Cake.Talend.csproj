@@ -56,6 +56,7 @@
     <Compile Include="ITalendCommandLine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TalendCommandLine.cs" />
+    <Compile Include="TalendCommandLineAliases.cs" />
     <Compile Include="TalendCommandLineSettings.cs" />
   </ItemGroup>
   <ItemGroup>
