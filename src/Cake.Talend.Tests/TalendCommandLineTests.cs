@@ -19,8 +19,8 @@ namespace Cake.Talend.Tests
             var workspacePath = new DirectoryPath("C:\\Users\\doliver\\Development\\talend-projects-git");
             var outputPath = new DirectoryPath("C:/Users/doliver/Development/job42");
 
-            ITalendCommandLine cmdLine = new TalendCommandLine(context.Log, studioPath, workspacePath, "doliver@petsafe.net");
-            cmdLine.BuildJob("Test1", "LogJob", outputPath);
+            //ITalendCommandLine cmdLine = new TalendCommandLine(context.Log, studioPath, workspacePath, "doliver@petsafe.net");
+            //cmdLine.BuildJob("Test1", "LogJob", outputPath);
         }
     }
 }
