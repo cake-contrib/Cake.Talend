@@ -1,4 +1,5 @@
-﻿using Cake.Core.IO;
+﻿using Cake.Core;
+using Cake.Core.IO;
 
 namespace Cake.Talend
 {

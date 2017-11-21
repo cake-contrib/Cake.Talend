@@ -40,7 +40,7 @@ http://cakebuild.net
 
 [CmdletBinding()]
 Param(
-    [string]$Script = "setup.cake",
+    [string]$Script = "build.cake",
     [string]$Target = "Default",
     [ValidateSet("Release", "Debug")]
     [string]$Configuration = "Release",
@@ -101,7 +101,7 @@ if($Mono.IsPresent) {
 }
 
 # Should we use the new Roslyn?
-$UseExperimental = "";
+$UseExperimental = "-experimental";
 if($Experimental.IsPresent -and !($Mono.IsPresent)) {
     Write-Verbose -Message "Using experimental version of Roslyn."
     $UseExperimental = "-experimental"
