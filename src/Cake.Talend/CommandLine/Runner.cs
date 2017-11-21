@@ -66,7 +66,7 @@ namespace Cake.Talend.CommandLine
 
         private ProcessArgumentBuilder GetBuildJobArguments(string projectName, string jobName, DirectoryPath directoryToDeploy, TalendCommandLineSettings settings) {
             var baseArguments = GetBaseArguments();
-            var commandString = CreateProjectCommandString(projectName, $"buildJob {jobName} -dd {directoryToDeploy.FullPath}", settings);
+            var commandString = CreateProjectCommandString(projectName, $"buildJob {jobName} -dd \\\"{directoryToDeploy.FullPath}\\\"", settings);
             baseArguments.AppendQuoted(commandString);
             return baseArguments;
         }

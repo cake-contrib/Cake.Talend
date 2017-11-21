@@ -8,6 +8,8 @@ using Xunit;
 namespace Cake.Talend.Tests
 {
     public sealed class TalendCommandLineRunnerTests {
+        private readonly string _commandLineArgumentPrefix = "-nosplash -application org.talend.commandline.CommandLine -consoleLog -data .";
+
         [Fact]
         public void Should_Throw_If_Settings_Are_Null() {
             // Given
@@ -96,7 +98,24 @@ namespace Cake.Talend.Tests
             var result = fixture.Run();
 
             // Then
-            result.Args.ShouldStartWith("-nosplash -application org.talend.commandline.CommandLine -consoleLog -data .");
+            result.Args.ShouldStartWith(_commandLineArgumentPrefix);
+        }
+
+        [Fact]
+        public void Should_Add_BuildJobArguments()
+        {
+            // Given 
+            var fixture = new TalendCommandLineRunnerFixture();
+            fixture.JobName = "job42";
+            fixture.ProjectName = "Test1";
+            fixture.Settings.User = "test@test.com";
+            fixture.ArtifactDestination = "C:/Temp";
+
+            // When
+            var result = fixture.Run();
+
+            // Then
+            result.Args.ShouldContain("initLocal;logonProject -pn Test1 -ul test@test.com;buildJob job42 -dd \\\"C:/Temp\\\"");
         }
     }
 }
