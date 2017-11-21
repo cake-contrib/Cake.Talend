@@ -8,7 +8,7 @@ This is a Cake addin for working with Talend Studio command line and Talend Admi
 
 | | Stable | Pre-release |
 |---|---|---|
-|GitHub Release|-|[![GitHub release](https://img.shields.io/github/release/Cake.Talend/Cake.Netlify.svg)](https://github.com/RadioSystems/Cake.Talend/releases/latest)|
+|GitHub Release|-|[![GitHub release](https://img.shields.io/github/release/Cake.Talend/Cake.Talend.svg)](https://github.com/RadioSystems/Cake.Talend/releases/latest)|
 |NuGet|[![NuGet](https://img.shields.io/nuget/v/Cake.Talend.svg)](https://www.nuget.org/packages/Cake.Talend)|[![NuGet](https://img.shields.io/nuget/vpre/Cake.Talend.svg)](https://www.nuget.org/packages/Cake.Talend)|
 
 ## Build
