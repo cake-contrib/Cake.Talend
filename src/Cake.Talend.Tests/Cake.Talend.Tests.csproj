@@ -1,19 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Version>0.1.0</Version>
     <Authors>RadioSystems</Authors>
     <Company>RadioSystems</Company>
     <Description>Cake addin for working with Talend Command Line and API.</Description>
-    <Copyright>Copyright ©  2017</Copyright>
-    <PackageLicenseUrl>https://github.com/RadioSystems/Cake.Talend/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>github.com/radiosystems/cake.talend</PackageProjectUrl>
+    <Copyright>Copyright ©  2017</Copyright>
     <RepositoryUrl>github.com/radiosystems/cake.talend</RepositoryUrl>
+    <PackageTags>Cake, Talend</PackageTags>
+    <PackageLicenseUrl>https://github.com/RadioSystems/Cake.Talend/blob/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Cake.Common" Version="0.23.0" />
+    <PackageReference Include="NSubstitute" Version="3.1.0" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cake.Talend\Cake.Talend.csproj" />
   </ItemGroup>
 
 </Project>

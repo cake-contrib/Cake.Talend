@@ -1,8 +1,6 @@
 ﻿using Cake.Core.Diagnostics;
 using System;
 using Cake.Core.IO;
-using Cake.Common;
-using Cake.Core;
 using System.Text;
 
 namespace Cake.Talend
