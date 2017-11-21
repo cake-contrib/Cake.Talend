@@ -195,3 +195,4 @@ tools/*
 tools/Modules/*
 !tools/packages.config
 !tools/Modules/packages.config
+BuildArtifacts
