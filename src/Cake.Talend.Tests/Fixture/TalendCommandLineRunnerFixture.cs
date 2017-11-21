@@ -1,13 +1,12 @@
 ﻿using Cake.Testing.Fixtures;
 
-namespace Cake.Talend.Tests.Fixture
-{
-    internal sealed class TalendCommandLineRunnerFixture: ToolFixture<TalendCommandLineSettings> {
+namespace Cake.Talend.Tests.Fixture {
+    internal sealed class TalendCommandLineRunnerFixture : ToolFixture<TalendCommandLineSettings> {
         public string ProjectName { get; set; }
         public string JobName { get; set; }
         public string ArtifactDestination { get; set; }
 
-        public TalendCommandLineRunnerFixture(): base("Talend-Studio-win-x86_64.exe") {
+        public TalendCommandLineRunnerFixture() : base("Talend-Studio-win-x86_64.exe") {
             ProjectName = "Test1";
             JobName = "job42";
             ArtifactDestination = "export";

@@ -3,14 +3,12 @@ using Cake.Core.IO;
 using Cake.Core.Tooling;
 using System.Collections.Generic;
 
-namespace Cake.Talend
-{
+namespace Cake.Talend {
     /// <summary>
     /// Base class for all Talend Command Line tools.
     /// </summary>
     /// <typeparam name="TSettings"></typeparam>
-    public abstract class TalendCommandLineTool<TSettings> : Tool<TSettings> where TSettings : TalendCommandLineSettings
-    {
+    public abstract class TalendCommandLineTool<TSettings> : Tool<TSettings> where TSettings : TalendCommandLineSettings {
         /// <summary>
         ///  Initializes a new instance of the <see cref="TalendCommandLineTool{TSettings}"/> class.
         /// </summary>
@@ -18,7 +16,7 @@ namespace Cake.Talend
         /// <param name="environment">The environment.</param>
         /// <param name="processRunner">The process runner.</param>
         /// <param name="tools">The tool locator.</param>
-        protected TalendCommandLineTool(IFileSystem fileSystem, ICakeEnvironment environment, IProcessRunner processRunner, 
+        protected TalendCommandLineTool(IFileSystem fileSystem, ICakeEnvironment environment, IProcessRunner processRunner,
             IToolLocator tools) : base(fileSystem, environment, processRunner, tools) {
         }
 

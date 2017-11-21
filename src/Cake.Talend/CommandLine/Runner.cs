@@ -3,12 +3,11 @@ using Cake.Core.IO;
 using Cake.Core.Tooling;
 using System;
 
-namespace Cake.Talend.CommandLine
-{
+namespace Cake.Talend.CommandLine {
     /// <summary>
     /// The Talend Command Line runner used to build Talend jobs.
     /// </summary>
-    public class Runner: TalendCommandLineTool<TalendCommandLineSettings> {
+    public class Runner : TalendCommandLineTool<TalendCommandLineSettings> {
         private readonly ICakeEnvironment _environment;
 
         /// <summary>
@@ -55,7 +54,7 @@ namespace Cake.Talend.CommandLine
             builder.Append("-data .");
             return builder;
         }
-        
+
         private string CreateProjectCommandString(string projectName, string command, TalendCommandLineSettings settings) {
             return String.Join(";", new[] {
                 "initLocal",

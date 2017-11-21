@@ -3,14 +3,12 @@ using Cake.Core.Annotations;
 using Cake.Core.IO;
 using System;
 
-namespace Cake.Talend
-{
+namespace Cake.Talend {
     /// <summary>
     /// Provides functionality for calling Talend Studio as a Command Line.
     /// </summary>
     [CakeAliasCategory("TalendCommandLine")]
-    public static class TalendCommandLineAliases
-    {
+    public static class TalendCommandLineAliases {
         /// <summary>
         /// Builds a Talend job and outputs to specified directory.
         /// </summary>
@@ -22,17 +20,15 @@ namespace Cake.Talend
         [CakeMethodAlias]
         [CakeAliasCategory("BuildJob")]
         public static void BuildJob(this ICakeContext context, string projectName, string jobName, DirectoryPath artifactDestination, TalendCommandLineSettings settings) {
-            if(artifactDestination == null) {
-                throw new ArgumentException(nameof(artifactDestination));
+            if (artifactDestination == null) {
+                throw new ArgumentNullException(nameof(artifactDestination));
             }
             if (settings == null) {
-                throw new ArgumentException(nameof(settings));
+                throw new ArgumentNullException(nameof(settings));
             }
-            //// Talend Cmd Line expects absolute path
-            //if (artifactDestination.IsRelative)
-            //{
-            //    artifactDestination = artifactDestination.MakeAbsolute(context.Environment);
-            //}
+            if (context == null) {
+                throw new ArgumentNullException(nameof(context));
+            }
 
             var runner = new CommandLine.Runner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
 
