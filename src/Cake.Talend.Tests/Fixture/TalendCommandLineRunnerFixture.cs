@@ -11,6 +11,10 @@ namespace Cake.Talend.Tests.Fixture
             ProjectName = "Test1";
             JobName = "job42";
             ArtifactDestination = "export";
+
+            Settings.TalendStudioPath = "C:/Program Files (x86)/Talend-Studio/studio/";
+            Settings.Workspace = ".";
+            Settings.User = "test@test.com";
         }
 
         protected override void RunTool() {

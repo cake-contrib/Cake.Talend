@@ -59,5 +59,44 @@ namespace Cake.Talend.Tests
             // Then
             result.ShouldBeType<ArgumentNullException>().ParamName.ShouldEqual("path");
         }
+
+        [Fact]
+        public void Should_Throw_If_Process_Has_A_Non_Zero_Exit_Code() {
+            // Given
+            var fixture = new TalendCommandLineRunnerFixture();
+            fixture.GivenProcessExitsWithCode(1);
+
+            // When
+            var result = Record.Exception(() => fixture.Run());
+
+            // Then
+            result.ShouldBeType<CakeException>()
+                .Message.ShouldEqual("Talend Command Line: Process returned an error (exit code 1).");
+        }
+
+        [Fact]
+        public void Should_Throw_If_Process_Was_Not_Started() {
+            // Given
+            var fixture = new TalendCommandLineRunnerFixture();
+            fixture.GivenProcessCannotStart();
+
+            // When
+            var result = Record.Exception(() => fixture.Run());
+
+            // Then
+            result.ShouldBeType<CakeException>().Message.ShouldEqual("Talend Command Line: Process was not started.");
+        }
+
+        [Fact]
+        public void Should_Start_Arguments_With_CommandLine_Options() {
+            // Given 
+            var fixture = new TalendCommandLineRunnerFixture();
+
+            // When
+            var result = fixture.Run();
+
+            // Then
+            result.Args.ShouldStartWith("-nosplash -application org.talend.commandline.CommandLine -consoleLog -data .");
+        }
     }
 }
