@@ -1,5 +1,5 @@
 // Addins
-#addin nuget:?package=Cake.Figlet&version=0.4.0
+#addin nuget:?package=Cake.Figlet&version=1.0.0
 
 // Tools
 #tool nuget:?package=xunit.runner.console&version=2.2.0

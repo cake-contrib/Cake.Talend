@@ -92,7 +92,6 @@ namespace Cake.Talend
 
             var arguments = argumentBuilder.ToString();
             _log.Debug(arguments);
-            System.Console.WriteLine(arguments);
 
             var processInfo = new System.Diagnostics.ProcessStartInfo
             {
