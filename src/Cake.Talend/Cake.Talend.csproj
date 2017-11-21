@@ -53,14 +53,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ITalendCommandLine.cs" />
+    <Compile Include="CommandLine\Runner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TalendCommandLine.cs" />
     <Compile Include="TalendCommandLineAliases.cs" />
     <Compile Include="TalendCommandLineSettings.cs" />
+    <Compile Include="TalendCommandLineTool.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

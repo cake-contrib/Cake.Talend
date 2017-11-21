@@ -1,10 +1,5 @@
 ﻿using Cake.Core;
 using Cake.Core.IO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Cake.Talend.Tests
@@ -19,8 +14,8 @@ namespace Cake.Talend.Tests
             var workspacePath = new DirectoryPath("C:\\Users\\doliver\\Development\\talend-projects-git");
             var outputPath = new DirectoryPath("C:/Users/doliver/Development/job42");
 
-            ITalendCommandLine cmdLine = new TalendCommandLine(context.Log, studioPath, workspacePath, "doliver@petsafe.net");
-            cmdLine.BuildJob("Test1", "LogJob", outputPath);
+            //ITalendCommandLine cmdLine = new TalendCommandLine(context.Log, studioPath, workspacePath, "doliver@petsafe.net");
+            //cmdLine.BuildJob("Test1", "LogJob", outputPath);
         }
     }
 }
