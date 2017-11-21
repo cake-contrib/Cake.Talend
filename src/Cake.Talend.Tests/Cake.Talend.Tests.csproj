@@ -81,8 +81,8 @@
   <ItemGroup>
     <Compile Include="Fixture\TalendCommandLineRunnerFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TalendCommandLineAliasesTests.cs" />
     <Compile Include="TalendCommandLineRunnerTests.cs" />
-    <Compile Include="TalendCommandLineTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

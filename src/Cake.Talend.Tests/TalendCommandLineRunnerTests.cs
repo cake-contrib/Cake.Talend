@@ -5,8 +5,7 @@ using Should;
 using System;
 using Xunit;
 
-namespace Cake.Talend.Tests
-{
+namespace Cake.Talend.Tests {
     public sealed class TalendCommandLineRunnerTests {
         private readonly string _commandLineArgumentPrefix = "-nosplash -application org.talend.commandline.CommandLine -consoleLog -data .";
 
@@ -102,8 +101,7 @@ namespace Cake.Talend.Tests
         }
 
         [Fact]
-        public void Should_Add_BuildJobArguments()
-        {
+        public void Should_Add_BuildJobArguments() {
             // Given 
             var fixture = new TalendCommandLineRunnerFixture();
             fixture.JobName = "job42";

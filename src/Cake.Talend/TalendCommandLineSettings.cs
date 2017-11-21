@@ -1,13 +1,11 @@
 ﻿using Cake.Core.IO;
 using Cake.Core.Tooling;
 
-namespace Cake.Talend
-{
+namespace Cake.Talend {
     /// <summary>
     /// Contains settings used by <see cref="TalendCommandLineTool{TalendCommandLineSettings}"/>
     /// </summary>
-    public class TalendCommandLineSettings: ToolSettings
-    {
+    public class TalendCommandLineSettings : ToolSettings {
         /// <summary>
         /// Gets or sets the path to the Talend Studio executable.
         /// </summary>
