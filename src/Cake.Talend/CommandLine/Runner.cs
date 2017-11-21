@@ -8,8 +8,7 @@ namespace Cake.Talend.CommandLine
     /// <summary>
     /// The Talend Command Line runner used to build Talend jobs.
     /// </summary>
-    public class Runner: TalendCommandLineTool<TalendCommandLineSettings>
-    {
+    public class Runner: TalendCommandLineTool<TalendCommandLineSettings> {
         private readonly ICakeEnvironment _environment;
 
         /// <summary>
@@ -32,29 +31,23 @@ namespace Cake.Talend.CommandLine
         /// <param name="jobName">The Talend job name.</param>
         /// <param name="artifactDestination">The location to place build job zip.</param>
         /// <param name="settings">The settings.</param>
-        public void BuildJob(string projectName, string jobName, DirectoryPath artifactDestination, TalendCommandLineSettings settings)
-        {
-            if (string.IsNullOrWhiteSpace(projectName))
-            {
+        public void BuildJob(string projectName, string jobName, DirectoryPath artifactDestination, TalendCommandLineSettings settings) {
+            if (string.IsNullOrWhiteSpace(projectName)) {
                 throw new ArgumentNullException(nameof(projectName));
             }
-            if (string.IsNullOrWhiteSpace(jobName))
-            {
+            if (string.IsNullOrWhiteSpace(jobName)) {
                 throw new ArgumentNullException(nameof(jobName));
             }
-            if (artifactDestination == null)
-            {
+            if (artifactDestination == null) {
                 throw new ArgumentNullException(nameof(artifactDestination));
             }
-            if (settings == null)
-            {
+            if (settings == null) {
                 throw new ArgumentNullException(nameof(settings));
             }
             Run(settings, GetBuildJobArguments(projectName, jobName, artifactDestination, settings));
         }
 
-        private ProcessArgumentBuilder GetBaseArguments()
-        {
+        private ProcessArgumentBuilder GetBaseArguments() {
             var builder = new ProcessArgumentBuilder();
             builder.Append("-nosplash");
             builder.Append("-application org.talend.commandline.CommandLine");
@@ -63,24 +56,19 @@ namespace Cake.Talend.CommandLine
             return builder;
         }
         
-        private string CreateProjectCommandString(string projectName, string command, TalendCommandLineSettings settings)
-        {
-            return String.Join(";", new[]
-            {
+        private string CreateProjectCommandString(string projectName, string command, TalendCommandLineSettings settings) {
+            return String.Join(";", new[] {
                 "initLocal",
                 $"logonProject -pn {projectName} -ul {settings.User}",
                 command
             });
         }
 
-        private ProcessArgumentBuilder GetBuildJobArguments(string projectName, string jobName, DirectoryPath directoryToDeploy, TalendCommandLineSettings settings)
-        {
+        private ProcessArgumentBuilder GetBuildJobArguments(string projectName, string jobName, DirectoryPath directoryToDeploy, TalendCommandLineSettings settings) {
             var baseArguments = GetBaseArguments();
             var commandString = CreateProjectCommandString(projectName, $"buildJob {jobName} -dd {directoryToDeploy.FullPath}", settings);
             baseArguments.AppendQuoted(commandString);
             return baseArguments;
         }
-
-
     }
 }

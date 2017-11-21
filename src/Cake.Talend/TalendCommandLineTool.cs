@@ -28,8 +28,7 @@ namespace Cake.Talend
         /// </summary>
         /// <param name="settings">The tool settings.</param>
         /// <returns></returns>
-        protected sealed override DirectoryPath GetWorkingDirectory(TSettings settings)
-        {
+        protected sealed override DirectoryPath GetWorkingDirectory(TSettings settings) {
             return settings.Workspace;
         }
 
@@ -37,8 +36,7 @@ namespace Cake.Talend
         /// Gets the name of the tool.
         /// </summary>
         /// <returns>The name of the tool.</returns>
-        protected sealed override string GetToolName()
-        {
+        protected sealed override string GetToolName() {
             return "Talend Command Line";
         }
 
@@ -46,10 +44,8 @@ namespace Cake.Talend
         /// Gets the possible names of the tool executable.
         /// </summary>
         /// <returns>The tool executable name.</returns>
-        protected sealed override IEnumerable<string> GetToolExecutableNames()
-        {
-            return new[]
-            {
+        protected sealed override IEnumerable<string> GetToolExecutableNames() {
+            return new[] {
                 "Talend-Studio-win-x86_64.exe",
                 "Talend-Studio-win-x86_64"
             };
@@ -60,10 +56,8 @@ namespace Cake.Talend
         /// </summary>
         /// <param name="settings">The settings.</param>
         /// <returns>The default tool path.</returns>
-        protected override IEnumerable<FilePath> GetAlternativeToolPaths(TSettings settings)
-        {
-            return new[]
-            {
+        protected override IEnumerable<FilePath> GetAlternativeToolPaths(TSettings settings) {
+            return new[] {
                 new FilePath("C:/Program Files (x86)/Talend-Studio/studio/"),
                 settings.TalendStudioPath
             };

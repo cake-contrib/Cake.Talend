@@ -11,7 +11,6 @@ namespace Cake.Talend
     [CakeAliasCategory("TalendCommandLine")]
     public static class TalendCommandLineAliases
     {
-
         /// <summary>
         /// Builds a Talend job and outputs to specified directory.
         /// </summary>
@@ -22,14 +21,11 @@ namespace Cake.Talend
         /// <param name="settings"></param>
         [CakeMethodAlias]
         [CakeAliasCategory("BuildJob")]
-        public static void BuildJob(this ICakeContext context, string projectName, string jobName, DirectoryPath artifactDestination, TalendCommandLineSettings settings)
-        {
-            if(artifactDestination == null)
-            {
+        public static void BuildJob(this ICakeContext context, string projectName, string jobName, DirectoryPath artifactDestination, TalendCommandLineSettings settings) {
+            if(artifactDestination == null) {
                 throw new ArgumentException(nameof(artifactDestination));
             }
-            if (settings == null)
-            {
+            if (settings == null) {
                 throw new ArgumentException(nameof(settings));
             }
             //// Talend Cmd Line expects absolute path
