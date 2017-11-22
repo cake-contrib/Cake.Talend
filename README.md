@@ -8,8 +8,19 @@ This is a Cake addin for working with Talend Studio command line and Talend Admi
 
 | | Stable | Pre-release |
 |---|---|---|
-|GitHub Release|-|[![GitHub release](https://img.shields.io/github/release/Cake.Talend/Cake.Talend.svg)](https://github.com/RadioSystems/Cake.Talend/releases/latest)|
+|GitHub Release|[![GitHub release](https://img.shields.io/github/release/RadioSystems/Cake.Talend.svg)](https://github.com/RadioSystems/Cake.Talend/releases/latest)|[![GitHub release](https://img.shields.io/github/release/RadioSystems/Cake.Talend.svg)](https://github.com/RadioSystems/Cake.Talend/releases/latest)|
 |NuGet|[![NuGet](https://img.shields.io/nuget/v/Cake.Talend.svg)](https://www.nuget.org/packages/Cake.Talend)|[![NuGet](https://img.shields.io/nuget/vpre/Cake.Talend.svg)](https://www.nuget.org/packages/Cake.Talend)|
+
+
+## Build Status
+
+|Develop|Master|
+|:--:|:--:|
+|[![Build status](https://ci.appveyor.com/api/projects/status/k68c22sa0um8an29?svg=true)](https://ci.appveyor.com/project/RadioSystems/cake-csvhelper/branch/develop)|[![Build status](https://ci.appveyor.com/api/projects/status/k68c22sa0um8an29/branch/develop?svg=true)](https://ci.appveyor.com/project/RadioSystems/cake-csvhelper/branch/master)|
+
+## Code Coverage
+
+![Code Coverage](https://codecov.io/gh/RadioSystems/Cake.Talend/branch/develop/graphs/commits.svg)
 
 ## Build
 
