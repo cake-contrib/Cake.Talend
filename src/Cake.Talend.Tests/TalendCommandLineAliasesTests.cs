@@ -10,7 +10,7 @@ namespace Cake.Talend.Tests {
         [Fact]
         public void Should_Throw_If_Context_Is_Null() {
             // Given
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLineBuildJobFixture();
 
             // When
             var result = Record.Exception(() => TalendCommandLineAliases.BuildJob(null,
@@ -23,7 +23,7 @@ namespace Cake.Talend.Tests {
         [Fact]
         public void Should_Throw_If_JobName_Is_Null() {
             // Given
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLineBuildJobFixture();
             var context = Substitute.For<ICakeContext>();
 
             // When
@@ -37,7 +37,7 @@ namespace Cake.Talend.Tests {
         [Fact]
         public void Should_Throw_If_ProjectName_Is_Null() {
             // Given
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLineBuildJobFixture();
             var context = Substitute.For<ICakeContext>();
 
             // When
@@ -49,9 +49,9 @@ namespace Cake.Talend.Tests {
         }
 
         [Fact]
-        public void Should_Throw_If_ArtifactDestination_Is_Null() {
+        public void BuildJob_Should_Throw_If_ArtifactDestination_Is_Null() {
             // Given
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLineBuildJobFixture();
             var context = Substitute.For<ICakeContext>();
 
             // When

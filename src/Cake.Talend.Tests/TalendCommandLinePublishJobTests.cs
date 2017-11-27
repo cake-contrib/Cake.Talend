@@ -6,13 +6,13 @@ using System;
 using Xunit;
 
 namespace Cake.Talend.Tests {
-    public sealed class TalendCommandLineRunnerTests {
+    public sealed class TalendCommandLinePublishJobTests {
         private readonly string _commandLineArgumentPrefix = "-nosplash -application org.talend.commandline.CommandLine -consoleLog -data .";
 
         [Fact]
         public void Should_Throw_If_Settings_Are_Null() {
             // Given
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLinePublishJobFixture();
             fixture.Settings = null;
 
             // When
@@ -25,7 +25,7 @@ namespace Cake.Talend.Tests {
         [Fact]
         public void Should_Throw_If_ProjectName_Is_Null() {
             // Given
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLinePublishJobFixture();
             fixture.ProjectName = null;
 
             // When
@@ -38,7 +38,7 @@ namespace Cake.Talend.Tests {
         [Fact]
         public void Should_Throw_If_JobName_Is_Null() {
             // Given
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLinePublishJobFixture();
             fixture.JobName = null;
 
             // When
@@ -49,22 +49,61 @@ namespace Cake.Talend.Tests {
         }
 
         [Fact]
-        public void Should_Throw_If_ArtifactDestination_Is_Null() {
+        public void Should_Throw_If_JobGroup_Is_Null() {
             // Given
-            var fixture = new TalendCommandLineRunnerFixture();
-            fixture.ArtifactDestination = null;
+            var fixture = new TalendCommandLinePublishJobFixture();
+            fixture.JobGroup = null;
 
             // When
             var result = Record.Exception(() => fixture.Run());
 
             // Then
-            result.ShouldBeType<ArgumentNullException>().ParamName.ShouldEqual("path");
+            result.ShouldBeType<ArgumentNullException>().ParamName.ShouldEqual("jobGroup");
+        }
+
+        [Fact]
+        public void Should_Throw_If_ArtifactRepositoryUrl_Is_Null() {
+            // Given
+            var fixture = new TalendCommandLinePublishJobFixture();
+            fixture.ArtifactRepositoryUrl = null;
+
+            // When
+            var result = Record.Exception(() => fixture.Run());
+
+            // Then
+            result.ShouldBeType<ArgumentNullException>().ParamName.ShouldEqual("artifactRepositoryUrl");
+        }
+
+        [Fact]
+        public void Should_Throw_If_ArtifactRepositoryUsername_Is_Null() {
+            // Given
+            var fixture = new TalendCommandLinePublishJobFixture();
+            fixture.ArtifactRepositoryUsername = null;
+
+            // When
+            var result = Record.Exception(() => fixture.Run());
+
+            // Then
+            result.ShouldBeType<ArgumentNullException>().ParamName.ShouldEqual("artifactRepositoryUsername");
+        }
+
+        [Fact]
+        public void Should_Throw_If_ArtifactRepositoryPassword_Is_Null() {
+            // Given
+            var fixture = new TalendCommandLinePublishJobFixture();
+            fixture.ArtifactRepositoryPassword = null;
+
+            // When
+            var result = Record.Exception(() => fixture.Run());
+
+            // Then
+            result.ShouldBeType<ArgumentNullException>().ParamName.ShouldEqual("artifactRepositoryPassword");
         }
 
         [Fact]
         public void Should_Throw_If_Process_Has_A_Non_Zero_Exit_Code() {
             // Given
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLinePublishJobFixture();
             fixture.GivenProcessExitsWithCode(1);
 
             // When
@@ -78,7 +117,7 @@ namespace Cake.Talend.Tests {
         [Fact]
         public void Should_Throw_If_Process_Was_Not_Started() {
             // Given
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLinePublishJobFixture();
             fixture.GivenProcessCannotStart();
 
             // When
@@ -91,7 +130,7 @@ namespace Cake.Talend.Tests {
         [Fact]
         public void Should_Start_Arguments_With_CommandLine_Options() {
             // Given 
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLinePublishJobFixture();
 
             // When
             var result = fixture.Run();
@@ -103,17 +142,20 @@ namespace Cake.Talend.Tests {
         [Fact]
         public void Should_Add_BuildJobArguments() {
             // Given 
-            var fixture = new TalendCommandLineRunnerFixture();
-            fixture.JobName = "job42";
+            var fixture = new TalendCommandLinePublishJobFixture();
             fixture.ProjectName = "Test1";
+            fixture.JobName = "job42";
+            fixture.JobGroup = "org.example";
+            fixture.ArtifactRepositoryUrl = "http://localhost:8081/nexus/content/repositories/snapshots/";
+            fixture.ArtifactRepositoryUsername = "admin";
+            fixture.ArtifactRepositoryPassword = "password";
             fixture.Settings.User = "test@test.com";
-            fixture.ArtifactDestination = "C:/Temp";
 
             // When
             var result = fixture.Run();
 
             // Then
-            result.Args.ShouldContain("initLocal;logonProject -pn Test1 -ul test@test.com;buildJob job42 -dd \\\"C:/Temp\\\"");
+            result.Args.ShouldContain("initLocal;logonProject -pn Test1 -ul test@test.com;publishJob job42 --group org.example -r http://localhost:8081/nexus/content/repositories/snapshots/ -u admin -p password -s -t standalone");
         }
     }
 }

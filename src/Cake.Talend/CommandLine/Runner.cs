@@ -31,19 +31,52 @@ namespace Cake.Talend.CommandLine {
         /// <param name="artifactDestination">The location to place build job zip.</param>
         /// <param name="settings">The settings.</param>
         public void BuildJob(string projectName, string jobName, DirectoryPath artifactDestination, TalendCommandLineSettings settings) {
+            CommonNullCheck(projectName, jobName, settings);
+
+            if (artifactDestination == null) {
+                throw new ArgumentNullException(nameof(artifactDestination));
+            }
+            Run(settings, GetBuildJobArguments(projectName, jobName, artifactDestination, settings));
+        }
+
+        /// <summary>
+        /// Publishes a Talend job to the Nexus Artifact Repository
+        /// </summary>
+        /// <param name="projectName">The Talend project name.</param>
+        /// <param name="jobName">The Talend job name.</param>
+        /// <param name="jobGroup">Example: org.rsc</param>
+        /// <param name="artifactRepositoryUrl">Example: http://localhost:8081/nexus/content/repositories/snapshots/ </param>
+        /// <param name="artifactRepositoryUsername">Example: admin</param>
+        /// <param name="artifactRepositoryPassword">Example: password</param>
+        /// <param name="settings">The settings.</param>
+        public void PublishJob(string projectName, string jobName, string jobGroup, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
+            CommonNullCheck(projectName, jobName, settings);
+
+            if (string.IsNullOrWhiteSpace(jobGroup)) {
+                throw new ArgumentNullException(nameof(jobGroup));
+            }
+            if (string.IsNullOrWhiteSpace(artifactRepositoryUrl)) {
+                throw new ArgumentNullException(nameof(artifactRepositoryUrl));
+            }
+            if (string.IsNullOrWhiteSpace(artifactRepositoryUsername)) {
+                throw new ArgumentNullException(nameof(artifactRepositoryUsername));
+            }
+            if (string.IsNullOrWhiteSpace(artifactRepositoryPassword)) {
+                throw new ArgumentNullException(nameof(artifactRepositoryPassword));
+            }
+            Run(settings, GetPublishJobArguments(projectName, jobName, jobGroup, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword, settings));
+        }
+
+        private void CommonNullCheck(string projectName, string jobName, TalendCommandLineSettings settings) {
             if (string.IsNullOrWhiteSpace(projectName)) {
                 throw new ArgumentNullException(nameof(projectName));
             }
             if (string.IsNullOrWhiteSpace(jobName)) {
                 throw new ArgumentNullException(nameof(jobName));
             }
-            if (artifactDestination == null) {
-                throw new ArgumentNullException(nameof(artifactDestination));
-            }
             if (settings == null) {
                 throw new ArgumentNullException(nameof(settings));
             }
-            Run(settings, GetBuildJobArguments(projectName, jobName, artifactDestination, settings));
         }
 
         private ProcessArgumentBuilder GetBaseArguments() {
@@ -66,6 +99,13 @@ namespace Cake.Talend.CommandLine {
         private ProcessArgumentBuilder GetBuildJobArguments(string projectName, string jobName, DirectoryPath directoryToDeploy, TalendCommandLineSettings settings) {
             var baseArguments = GetBaseArguments();
             var commandString = CreateProjectCommandString(projectName, $"buildJob {jobName} -dd \\\"{directoryToDeploy.FullPath}\\\"", settings);
+            baseArguments.AppendQuoted(commandString);
+            return baseArguments;
+        }
+
+        private ProcessArgumentBuilder GetPublishJobArguments(string projectName, string jobName, string jobGroup, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
+            var baseArguments = GetBaseArguments();
+            var commandString = CreateProjectCommandString(projectName, $"publishJob {jobName} --group {jobGroup} -r {artifactRepositoryUrl} -u {artifactRepositoryUsername} -p {artifactRepositoryPassword} -s -t standalone" , settings);
             baseArguments.AppendQuoted(commandString);
             return baseArguments;
         }
