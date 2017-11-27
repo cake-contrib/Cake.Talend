@@ -16,7 +16,7 @@ This is a Cake addin for working with Talend Studio command line and Talend Admi
 
 |Develop|Master|
 |:--:|:--:|
-|[![Build status](https://ci.appveyor.com/api/projects/status/k68c22sa0um8an29?svg=true)](https://ci.appveyor.com/project/RadioSystems/cake-csvhelper/branch/develop)|[![Build status](https://ci.appveyor.com/api/projects/status/k68c22sa0um8an29/branch/develop?svg=true)](https://ci.appveyor.com/project/RadioSystems/cake-csvhelper/branch/master)|
+|[![Build status](https://ci.appveyor.com/api/projects/status/b7t333udwup6fjpg/branch/develop?svg=true)](https://ci.appveyor.com/project/RadioSystems/cake-talend/branch/develop)|[![Build status](https://ci.appveyor.com/api/projects/status/b7t333udwup6fjpg/branch/master?svg=true)](https://ci.appveyor.com/project/RadioSystems/cake-talend/branch/master)|
 
 ## Code Coverage
 
