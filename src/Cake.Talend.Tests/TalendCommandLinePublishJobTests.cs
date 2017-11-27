@@ -155,7 +155,7 @@ namespace Cake.Talend.Tests {
             var result = fixture.Run();
 
             // Then
-            result.Args.ShouldContain("initLocal;logonProject -pn Test1 -ul test@test.com;publishJob job42 --group org.example -r http://localhost:8081/nexus/content/repositories/snapshots/ -u admin -p password -s -t standalone");
+            result.Args.ShouldContain("initLocal;logonProject -pn Test1 -ul test@test.com;publishJob job42 --group org.example -r http://localhost:8081/nexus/content/repositories/snapshots/ -u admin -p password -s -t standalone -a job42");
         }
     }
 }

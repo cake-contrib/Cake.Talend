@@ -105,7 +105,7 @@ namespace Cake.Talend.CommandLine {
 
         private ProcessArgumentBuilder GetPublishJobArguments(string projectName, string jobName, string jobGroup, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
             var baseArguments = GetBaseArguments();
-            var commandString = CreateProjectCommandString(projectName, $"publishJob {jobName} --group {jobGroup} -r {artifactRepositoryUrl} -u {artifactRepositoryUsername} -p {artifactRepositoryPassword} -s -t standalone" , settings);
+            var commandString = CreateProjectCommandString(projectName, $"publishJob {jobName} --group {jobGroup} -r {artifactRepositoryUrl} -u {artifactRepositoryUsername} -p {artifactRepositoryPassword} -s -t standalone -a {jobName}" , settings);
             baseArguments.AppendQuoted(commandString);
             return baseArguments;
         }
