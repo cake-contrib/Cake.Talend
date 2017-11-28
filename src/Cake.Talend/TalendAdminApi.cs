@@ -65,7 +65,7 @@ namespace Cake.Talend {
         /// Lists all servers on this API.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Models.ListServerApiResponse.Server> GetServerList() {
+        public IEnumerable<Models.Server> GetServerList() {
             var command = new Models.ApiCommandRequest {
                 authPass = _password,
                 authUser = _username,

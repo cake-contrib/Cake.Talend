@@ -20,7 +20,7 @@ namespace Cake.Talend {
         [CakeMethodAlias]
         [CakeAliasCategory("ListServers")]
 #pragma warning disable RCS1175 // Unused this parameter.
-        public static IEnumerable<Models.ListServerApiResponse.Server> GetServerList(this ICakeContext context, TalendAdminApiSettings settings) {
+        public static IEnumerable<Models.Server> GetServerList(this ICakeContext context, TalendAdminApiSettings settings) {
 #pragma warning restore RCS1175 // Unused this parameter.
             var api = new TalendAdminApi(settings.TalendAdminAddress, settings.TalendAdminUsername, settings.TalendAdminPassword);
             return api.GetServerList();

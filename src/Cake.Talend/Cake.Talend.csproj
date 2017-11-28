@@ -56,6 +56,7 @@
     <Compile Include="ITalendAdminApi.cs" />
     <Compile Include="CommandLine\Runner.cs" />
     <Compile Include="Models\ApiCommandRequest.cs" />
+    <Compile Include="Models\Server.cs" />
     <Compile Include="Models\TalendApiResponse.cs" />
     <Compile Include="TalendAdminApiAliases.cs" />
     <Compile Include="TalendAdminApiCommands.cs" />

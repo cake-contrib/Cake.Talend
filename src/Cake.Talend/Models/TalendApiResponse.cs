@@ -2,6 +2,12 @@
 
 namespace Cake.Talend.Models {
 #pragma warning disable 1591
+    public class Executiontime {
+        public int millis { get; set; }
+        public int seconds { get; set; }
+    }
+
+
     public class TalendApiResponse<T> {
         [DeserializeAs(Name = "executionTime")]
         public Executiontime ExecutionTime { get; set; }

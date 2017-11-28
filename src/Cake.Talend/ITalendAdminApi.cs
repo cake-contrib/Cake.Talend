@@ -9,6 +9,6 @@ namespace Cake.Talend {
         /// Get the list of servers currently available.
         /// </summary>
         /// <returns></returns>
-        IEnumerable<Models.ListServerApiResponse.Server> GetServerList();
+        IEnumerable<Models.Server> GetServerList();
     }
 }
