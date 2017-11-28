@@ -6,13 +6,13 @@ using System;
 using Xunit;
 
 namespace Cake.Talend.Tests {
-    public sealed class TalendCommandLineRunnerTests {
+    public sealed class TalendCommandLineBuildJobTests {
         private readonly string _commandLineArgumentPrefix = "-nosplash -application org.talend.commandline.CommandLine -consoleLog -data .";
 
         [Fact]
         public void Should_Throw_If_Settings_Are_Null() {
             // Given
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLineBuildJobFixture();
             fixture.Settings = null;
 
             // When
@@ -25,7 +25,7 @@ namespace Cake.Talend.Tests {
         [Fact]
         public void Should_Throw_If_ProjectName_Is_Null() {
             // Given
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLineBuildJobFixture();
             fixture.ProjectName = null;
 
             // When
@@ -38,7 +38,7 @@ namespace Cake.Talend.Tests {
         [Fact]
         public void Should_Throw_If_JobName_Is_Null() {
             // Given
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLineBuildJobFixture();
             fixture.JobName = null;
 
             // When
@@ -51,7 +51,7 @@ namespace Cake.Talend.Tests {
         [Fact]
         public void Should_Throw_If_ArtifactDestination_Is_Null() {
             // Given
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLineBuildJobFixture();
             fixture.ArtifactDestination = null;
 
             // When
@@ -64,7 +64,7 @@ namespace Cake.Talend.Tests {
         [Fact]
         public void Should_Throw_If_Process_Has_A_Non_Zero_Exit_Code() {
             // Given
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLineBuildJobFixture();
             fixture.GivenProcessExitsWithCode(1);
 
             // When
@@ -78,7 +78,7 @@ namespace Cake.Talend.Tests {
         [Fact]
         public void Should_Throw_If_Process_Was_Not_Started() {
             // Given
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLineBuildJobFixture();
             fixture.GivenProcessCannotStart();
 
             // When
@@ -91,7 +91,7 @@ namespace Cake.Talend.Tests {
         [Fact]
         public void Should_Start_Arguments_With_CommandLine_Options() {
             // Given 
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLineBuildJobFixture();
 
             // When
             var result = fixture.Run();
@@ -103,7 +103,7 @@ namespace Cake.Talend.Tests {
         [Fact]
         public void Should_Add_BuildJobArguments() {
             // Given 
-            var fixture = new TalendCommandLineRunnerFixture();
+            var fixture = new TalendCommandLineBuildJobFixture();
             fixture.JobName = "job42";
             fixture.ProjectName = "Test1";
             fixture.Settings.User = "test@test.com";

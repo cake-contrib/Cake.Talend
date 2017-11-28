@@ -81,10 +81,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fixture\TalendCommandLineRunnerFixture.cs" />
+    <Compile Include="Fixture\TalendCommandLineBuildRouteFixture.cs" />
+    <Compile Include="Fixture\TalendCommandLinePublishRouteFixture.cs" />
+    <Compile Include="Fixture\TalendCommandLinePublishJobFixture.cs" />
+    <Compile Include="Fixture\TalendCommandLineBuildJobFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TalendCommandLineAliasesTests.cs" />
-    <Compile Include="TalendCommandLineRunnerTests.cs" />
+    <Compile Include="TalendCommandLineBuildRouteTests.cs" />
+    <Compile Include="TalendCommandLinePublishRouteTests.cs" />
+    <Compile Include="TalendCommandLinePublishJobTests.cs" />
+    <Compile Include="TalendCommandLineBuildJobTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

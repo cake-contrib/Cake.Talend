@@ -1,14 +1,14 @@
 ﻿using Cake.Testing.Fixtures;
 
 namespace Cake.Talend.Tests.Fixture {
-    internal sealed class TalendCommandLineRunnerFixture : ToolFixture<TalendCommandLineSettings> {
+    internal sealed class TalendCommandLineBuildRouteFixture : ToolFixture<TalendCommandLineSettings> {
         public string ProjectName { get; set; }
-        public string JobName { get; set; }
+        public string RouteName { get; set; }
         public string ArtifactDestination { get; set; }
 
-        public TalendCommandLineRunnerFixture() : base("Talend-Studio-win-x86_64.exe") {
+        public TalendCommandLineBuildRouteFixture() : base("Talend-Studio-win-x86_64.exe") {
             ProjectName = "Test1";
-            JobName = "job42";
+            RouteName = "route3";
             ArtifactDestination = "export";
 
             Settings.TalendStudioPath = "C:/Program Files (x86)/Talend-Studio/studio/";
@@ -18,7 +18,7 @@ namespace Cake.Talend.Tests.Fixture {
 
         protected override void RunTool() {
             var tool = new CommandLine.Runner(FileSystem, Environment, ProcessRunner, Tools);
-            tool.BuildJob(ProjectName, JobName, ArtifactDestination, Settings);
+            tool.BuildRoute(ProjectName, RouteName, ArtifactDestination, Settings);
         }
     }
 }
