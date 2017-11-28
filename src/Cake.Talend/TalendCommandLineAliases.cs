@@ -38,6 +38,24 @@ namespace Cake.Talend {
         }
 
         /// <summary>
+        /// Builds a Talend route and outputs to specified directory.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="projectName"></param>
+        /// <param name="routeName"></param>
+        /// <param name="artifactDestination"></param>
+        /// <param name="settings"></param>
+        [CakeMethodAlias]
+        [CakeAliasCategory("BuildRoute")]
+        public static void BuildRoute(this ICakeContext context, string projectName, string routeName, DirectoryPath artifactDestination, TalendCommandLineSettings settings) {
+            CommonNullCheck(context, settings);
+
+            var runner = new CommandLine.Runner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
+
+            runner.BuildRoute(projectName, routeName, artifactDestination, settings);
+        }
+
+        /// <summary>
         /// Publishes a Talend job to specified Nexus repository.
         /// </summary>
         /// <param name="context"></param>
