@@ -18,7 +18,6 @@ namespace Cake.Talend {
             }
         }
 
-
         /// <summary>
         /// Builds a Talend job and outputs to specified directory.
         /// </summary>
@@ -74,6 +73,27 @@ namespace Cake.Talend {
             var runner = new CommandLine.Runner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
 
             runner.PublishJob(projectName, jobName, jobGroup, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword, settings);
+        }
+
+        /// <summary>
+        /// Publishes a Talend route to specified Nexus repository.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="projectName"></param>
+        /// <param name="routeName"></param>
+        /// <param name="jobGroup">Example: org.rsc</param>
+        /// <param name="artifactRepositoryUrl">Example: http://localhost:8081/nexus/content/repositories/snapshots/ </param>
+        /// <param name="artifactRepositoryUsername">Example: admin</param>
+        /// <param name="artifactRepositoryPassword">Example: password</param>
+        /// <param name="settings"></param>
+        [CakeMethodAlias]
+        [CakeAliasCategory("PublishJob")]
+        public static void PublishRoute(this ICakeContext context, string projectName, string routeName, string jobGroup, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
+            CommonNullCheck(context, settings);
+
+            var runner = new CommandLine.Runner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
+
+            runner.PublishRoute(projectName, routeName, jobGroup, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword, settings);
         }
     }
 }
