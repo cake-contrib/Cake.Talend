@@ -31,12 +31,30 @@ namespace Cake.Talend.CommandLine {
         /// <param name="artifactDestination">The location to place build job zip.</param>
         /// <param name="settings">The settings.</param>
         public void BuildJob(string projectName, string jobName, DirectoryPath artifactDestination, TalendCommandLineSettings settings) {
-            CommonNullCheck(projectName, jobName, settings);
+            CommongNullCheck(projectName, settings);
+            CommongJobNullCheck(jobName);
 
             if (artifactDestination == null) {
                 throw new ArgumentNullException(nameof(artifactDestination));
             }
             Run(settings, GetBuildJobArguments(projectName, jobName, artifactDestination, settings));
+        }
+
+        /// <summary>
+        /// Builds a Talend route and drops it into directory using the specified settings.
+        /// </summary>
+        /// <param name="projectName">The Talend project name.</param>
+        /// <param name="routeName">The Talend route name.</param>
+        /// <param name="artifactDestination">The location to place build job zip.</param>
+        /// <param name="settings">The settings.</param>
+        public void BuildRoute(string projectName, string routeName, DirectoryPath artifactDestination, TalendCommandLineSettings settings) {
+            CommongNullCheck(projectName, settings);
+            CommongRouteNullCheck(routeName);
+
+            if (artifactDestination == null) {
+                throw new ArgumentNullException(nameof(artifactDestination));
+            }
+            Run(settings, GetBuildRouteArguments(projectName, routeName, artifactDestination, settings));
         }
 
         /// <summary>
@@ -50,7 +68,8 @@ namespace Cake.Talend.CommandLine {
         /// <param name="artifactRepositoryPassword">Example: password</param>
         /// <param name="settings">The settings.</param>
         public void PublishJob(string projectName, string jobName, string jobGroup, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
-            CommonNullCheck(projectName, jobName, settings);
+            CommongNullCheck(projectName, settings);
+            CommongJobNullCheck(jobName);
 
             if (string.IsNullOrWhiteSpace(jobGroup)) {
                 throw new ArgumentNullException(nameof(jobGroup));
@@ -67,17 +86,28 @@ namespace Cake.Talend.CommandLine {
             Run(settings, GetPublishJobArguments(projectName, jobName, jobGroup, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword, settings));
         }
 
-        private void CommonNullCheck(string projectName, string jobName, TalendCommandLineSettings settings) {
+        #region Null checks
+        private void CommongNullCheck(string projectName, TalendCommandLineSettings settings) {
             if (string.IsNullOrWhiteSpace(projectName)) {
                 throw new ArgumentNullException(nameof(projectName));
-            }
-            if (string.IsNullOrWhiteSpace(jobName)) {
-                throw new ArgumentNullException(nameof(jobName));
             }
             if (settings == null) {
                 throw new ArgumentNullException(nameof(settings));
             }
         }
+
+        private void CommongJobNullCheck(string jobName) {
+            if (string.IsNullOrWhiteSpace(jobName)) {
+                throw new ArgumentNullException(nameof(jobName));
+            }
+        }
+
+        private void CommongRouteNullCheck(string routeName) {
+            if (string.IsNullOrWhiteSpace(routeName)) {
+                throw new ArgumentNullException(nameof(routeName));
+            }
+        }
+        #endregion
 
         private ProcessArgumentBuilder GetBaseArguments() {
             var builder = new ProcessArgumentBuilder();
@@ -99,6 +129,13 @@ namespace Cake.Talend.CommandLine {
         private ProcessArgumentBuilder GetBuildJobArguments(string projectName, string jobName, DirectoryPath directoryToDeploy, TalendCommandLineSettings settings) {
             var baseArguments = GetBaseArguments();
             var commandString = CreateProjectCommandString(projectName, $"buildJob {jobName} -dd \\\"{directoryToDeploy.FullPath}\\\"", settings);
+            baseArguments.AppendQuoted(commandString);
+            return baseArguments;
+        }
+
+        private ProcessArgumentBuilder GetBuildRouteArguments(string projectName, string routeName, DirectoryPath directoryToDeploy, TalendCommandLineSettings settings) {
+            var baseArguments = GetBaseArguments();
+            var commandString = CreateProjectCommandString(projectName, $"buildRoute {routeName} -dd \\\"{directoryToDeploy.FullPath}\\\"", settings);
             baseArguments.AppendQuoted(commandString);
             return baseArguments;
         }
