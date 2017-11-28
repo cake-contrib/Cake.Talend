@@ -7,6 +7,7 @@ namespace Cake.Talend {
     /// Provides functionality for calling Talend Admin Center API.
     /// </summary>
     [CakeAliasCategory("TalendAdminApi")]
+    [CakeNamespaceImport("Cake.Talend.Models")]
     public static class TalendAdminApiAliases {
 
 
