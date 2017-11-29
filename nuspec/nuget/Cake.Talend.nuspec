@@ -18,5 +18,6 @@
     <file src="Cake.Talend.dll" target="lib\net45" />
     <file src="Cake.Talend.pdb" target="lib\net45" />
     <file src="Cake.Talend.xml" target="lib\net45" />
+    <file src="RestSharp.dll" target="lib\net45" />
   </files>
 </package>

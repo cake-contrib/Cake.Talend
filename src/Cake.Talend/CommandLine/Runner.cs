@@ -63,16 +63,17 @@ namespace Cake.Talend.CommandLine {
         /// <param name="projectName">The Talend project name.</param>
         /// <param name="jobName">The Talend job name.</param>
         /// <param name="jobGroup">Example: org.rsc</param>
+        /// <param name="isSnapshot">True if snapshot</param>
         /// <param name="artifactRepositoryUrl">Example: http://localhost:8081/nexus/content/repositories/snapshots/ </param>
         /// <param name="artifactRepositoryUsername">Example: admin</param>
         /// <param name="artifactRepositoryPassword">Example: password</param>
         /// <param name="settings">The settings.</param>
-        public void PublishJob(string projectName, string jobName, string jobGroup, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
+        public void PublishJob(string projectName, string jobName, string jobGroup, bool isSnapshot, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
             CommonNullCheck(projectName, settings);
             CommongJobNullCheck(jobName);
             CommonPublishNullCheck(jobGroup, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword);
 
-            Run(settings, GetPublishJobArguments(projectName, jobName, jobGroup, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword, settings));
+            Run(settings, GetPublishJobArguments(projectName, jobName, jobGroup, isSnapshot, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword, settings));
         }
 
 
@@ -82,16 +83,17 @@ namespace Cake.Talend.CommandLine {
         /// <param name="projectName">The Talend project name.</param>
         /// <param name="routeName">The Talend route name.</param>
         /// <param name="jobGroup">Example: org.rsc</param>
+        /// <param name="isSnapshot">True if snapshot</param>
         /// <param name="artifactRepositoryUrl">Example: http://localhost:8081/nexus/content/repositories/snapshots/ </param>
         /// <param name="artifactRepositoryUsername">Example: admin</param>
         /// <param name="artifactRepositoryPassword">Example: password</param>
         /// <param name="settings">The settings.</param>
-        public void PublishRoute(string projectName, string routeName, string jobGroup, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
+        public void PublishRoute(string projectName, string routeName, string jobGroup, bool isSnapshot, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
             CommonNullCheck(projectName, settings);
             CommongRouteNullCheck(routeName);
             CommonPublishNullCheck(jobGroup, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword);
 
-            Run(settings, GetPublishRouteArguments(projectName, routeName, jobGroup, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword, settings));
+            Run(settings, GetPublishRouteArguments(projectName, routeName, jobGroup, isSnapshot, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword, settings));
         }
 
         #region Null checks
@@ -163,16 +165,18 @@ namespace Cake.Talend.CommandLine {
             return baseArguments;
         }
 
-        private ProcessArgumentBuilder GetPublishJobArguments(string projectName, string jobName, string jobGroup, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
+        private ProcessArgumentBuilder GetPublishJobArguments(string projectName, string jobName, string jobGroup, bool isSnapshot, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
             var baseArguments = GetBaseArguments();
-            var commandString = CreateProjectCommandString(projectName, $"publishJob {jobName} --group {jobGroup} -r {artifactRepositoryUrl} -u {artifactRepositoryUsername} -p {artifactRepositoryPassword} -s -t standalone -a {jobName}" , settings);
+            var snapshotString = isSnapshot ? "-s" : String.Empty;
+            var commandString = CreateProjectCommandString(projectName, $"publishJob {jobName} --group {jobGroup} -r {artifactRepositoryUrl} -u {artifactRepositoryUsername} -p {artifactRepositoryPassword} {snapshotString} -t standalone -a {jobName}" , settings);
             baseArguments.AppendQuoted(commandString);
             return baseArguments;
         }
 
-        private ProcessArgumentBuilder GetPublishRouteArguments(string projectName, string routeName, string jobGroup, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
+        private ProcessArgumentBuilder GetPublishRouteArguments(string projectName, string routeName, string jobGroup, bool isSnapshot, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
             var baseArguments = GetBaseArguments();
-            var commandString = CreateProjectCommandString(projectName, $"publishRoute {routeName} --group {jobGroup} -r {artifactRepositoryUrl} -u {artifactRepositoryUsername} -p {artifactRepositoryPassword} -s -a {routeName}", settings);
+            var snapshotString = isSnapshot ? "-s" : String.Empty;
+            var commandString = CreateProjectCommandString(projectName, $"publishRoute {routeName} --group {jobGroup} -r {artifactRepositoryUrl} -u {artifactRepositoryUsername} -p {artifactRepositoryPassword} {snapshotString} -a {routeName}", settings);
             baseArguments.AppendQuoted(commandString);
             return baseArguments;
         }
