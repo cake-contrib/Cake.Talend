@@ -8,6 +8,7 @@ namespace Cake.Talend.Tests.Fixture {
         public string ArtifactRepositoryUrl { get; set; }
         public string ArtifactRepositoryUsername { get; set; }
         public string ArtifactRepositoryPassword { get; set; }
+        public bool IsSnapshot { get; set; }
 
         public TalendCommandLinePublishJobFixture() : base("Talend-Studio-win-x86_64.exe") {
             ProjectName = "Test1";
@@ -16,6 +17,7 @@ namespace Cake.Talend.Tests.Fixture {
             ArtifactRepositoryUrl = "http://localhost:8081/nexus/content/repositories/snapshots/";
             ArtifactRepositoryUsername = "admin";
             ArtifactRepositoryPassword = "password";
+            IsSnapshot = true;
 
             Settings.TalendStudioPath = "C:/Program Files (x86)/Talend-Studio/studio/";
             Settings.Workspace = ".";
@@ -24,7 +26,7 @@ namespace Cake.Talend.Tests.Fixture {
 
         protected override void RunTool() {
             var tool = new CommandLine.Runner(FileSystem, Environment, ProcessRunner, Tools);
-            tool.PublishJob(ProjectName, JobName, JobGroup, ArtifactRepositoryUrl, ArtifactRepositoryUsername, ArtifactRepositoryPassword, Settings);
+            tool.PublishJob(ProjectName, JobName, JobGroup, IsSnapshot, ArtifactRepositoryUrl, ArtifactRepositoryUsername, ArtifactRepositoryPassword, Settings);
         }
     }
 }

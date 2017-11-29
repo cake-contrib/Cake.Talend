@@ -61,18 +61,19 @@ namespace Cake.Talend {
         /// <param name="projectName"></param>
         /// <param name="jobName"></param>
         /// <param name="jobGroup">Example: org.rsc</param>
+        /// <param name="isSnapshot">True if snapshot</param>
         /// <param name="artifactRepositoryUrl">Example: http://localhost:8081/nexus/content/repositories/snapshots/ </param>
         /// <param name="artifactRepositoryUsername">Example: admin</param>
         /// <param name="artifactRepositoryPassword">Example: password</param>
         /// <param name="settings"></param>
         [CakeMethodAlias]
         [CakeAliasCategory("PublishJob")]
-        public static void PublishJob(this ICakeContext context, string projectName, string jobName, string jobGroup, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
+        public static void PublishJob(this ICakeContext context, string projectName, string jobName, string jobGroup, bool isSnapshot, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
             CommonNullCheck(context, settings);
 
             var runner = new CommandLine.Runner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
 
-            runner.PublishJob(projectName, jobName, jobGroup, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword, settings);
+            runner.PublishJob(projectName, jobName, jobGroup, isSnapshot, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword, settings);
         }
 
         /// <summary>
@@ -82,18 +83,19 @@ namespace Cake.Talend {
         /// <param name="projectName"></param>
         /// <param name="routeName"></param>
         /// <param name="jobGroup">Example: org.rsc</param>
+        /// <param name="isSnapshot">True if snapshot</param>
         /// <param name="artifactRepositoryUrl">Example: http://localhost:8081/nexus/content/repositories/snapshots/ </param>
         /// <param name="artifactRepositoryUsername">Example: admin</param>
         /// <param name="artifactRepositoryPassword">Example: password</param>
         /// <param name="settings"></param>
         [CakeMethodAlias]
         [CakeAliasCategory("PublishJob")]
-        public static void PublishRoute(this ICakeContext context, string projectName, string routeName, string jobGroup, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
+        public static void PublishRoute(this ICakeContext context, string projectName, string routeName, string jobGroup, bool isSnapshot, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
             CommonNullCheck(context, settings);
 
             var runner = new CommandLine.Runner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
 
-            runner.PublishRoute(projectName, routeName, jobGroup, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword, settings);
+            runner.PublishRoute(projectName, routeName, jobGroup, isSnapshot, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword, settings);
         }
     }
 }
