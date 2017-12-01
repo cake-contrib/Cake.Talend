@@ -30,11 +30,6 @@ namespace Cake.Talend.Models {
         /// </summary>
         public bool? IsSnapshot { get; set; }
         /// <summary>
-        /// The context to use. Local, Test, or Prod usually.
-        /// </summary>
-        /// <example>Prod</example>
-        public string Context { get; set; }
-        /// <summary>
         /// Version on Nexus independent of actual Talend Route version.
         /// </summary>
         /// <example>0.5.1</example>
