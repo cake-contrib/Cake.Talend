@@ -198,7 +198,7 @@ namespace Cake.Talend {
                 runtimePropertyId = esbTask.pid,
                 runtimeServerName = esbTask.jobServerLabelHost,
                 taskId = updateSettings.EsbTaskID ?? esbTask.id,
-                taskName = cleanFeatureName
+                taskName = updateSettings.EsbTaskName
             };
         }
 
