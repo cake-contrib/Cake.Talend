@@ -40,5 +40,29 @@ namespace Cake.Talend {
         /// </summary>
         /// <param name="request"></param>
         void UpdateEsbTask(Models.UpdateEsbTaskSettings request);
+
+        /// <summary>
+        /// Starts an ESB task.
+        /// </summary>
+        /// <param name="taskId"></param>
+        void StartEsbTask(int taskId);
+
+        /// <summary>
+        /// Stops an ESB task.
+        /// </summary>
+        /// <param name="taskId"></param>
+        void StopEsbTask(int taskId);
+
+        /// <summary>
+        /// Deploys an ESB task.
+        /// </summary>
+        /// <param name="taskId"></param>
+        void DeployEsbTask(int taskId);
+
+        /// <summary>
+        /// Undeploys an ESB task.
+        /// </summary>
+        /// <param name="taskId"></param>
+        void UndeployEsbTask(int taskId);
     }
 }

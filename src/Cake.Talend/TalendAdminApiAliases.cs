@@ -77,7 +77,6 @@ namespace Cake.Talend {
             return api.GetEsbTaskIdByName(esbTaskName);
         }
 
-
         /// <summary>
         /// Updates an ESB task.
         /// </summary>
@@ -90,6 +89,62 @@ namespace Cake.Talend {
         public static void UpdateEsbTask(this ICakeContext context, Models.UpdateEsbTaskSettings esbTaskSettings, TalendAdminApiSettings settings) {
             var api = new TalendAdminApi(settings.TalendAdminAddress, settings.TalendAdminUsername, settings.TalendAdminPassword);
             api.UpdateEsbTask(esbTaskSettings);
+        }
+
+        /// <summary>
+        /// Starts an ESB task.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="taskId"></param>
+        /// <param name="settings"></param>
+        /// <returns></returns>
+        [CakeMethodAlias]
+        [CakeAliasCategory("StartEsbTask")]
+        public static void StartEsbTask(this ICakeContext context, int taskId, TalendAdminApiSettings settings) {
+            var api = new TalendAdminApi(settings.TalendAdminAddress, settings.TalendAdminUsername, settings.TalendAdminPassword);
+            api.StartEsbTask(taskId);
+        }
+
+        /// <summary>
+        /// Stops an ESB task.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="taskId"></param>
+        /// <param name="settings"></param>
+        /// <returns></returns>
+        [CakeMethodAlias]
+        [CakeAliasCategory("StopEsbTask")]
+        public static void StopEsbTask(this ICakeContext context, int taskId, TalendAdminApiSettings settings) {
+            var api = new TalendAdminApi(settings.TalendAdminAddress, settings.TalendAdminUsername, settings.TalendAdminPassword);
+            api.StopEsbTask(taskId);
+        }
+
+        /// <summary>
+        /// Deploys an ESB task.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="taskId"></param>
+        /// <param name="settings"></param>
+        /// <returns></returns>
+        [CakeMethodAlias]
+        [CakeAliasCategory("DeployEsbTask")]
+        public static void DeployEsbTask(this ICakeContext context, int taskId, TalendAdminApiSettings settings) {
+            var api = new TalendAdminApi(settings.TalendAdminAddress, settings.TalendAdminUsername, settings.TalendAdminPassword);
+            api.DeployEsbTask(taskId);
+        }
+
+        /// <summary>
+        /// Undeploys an ESB task.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="taskId"></param>
+        /// <param name="settings"></param>
+        /// <returns></returns>
+        [CakeMethodAlias]
+        [CakeAliasCategory("UndeployEsbTask")]
+        public static void UndeployEsbTask(this ICakeContext context, int taskId, TalendAdminApiSettings settings) {
+            var api = new TalendAdminApi(settings.TalendAdminAddress, settings.TalendAdminUsername, settings.TalendAdminPassword);
+            api.UndeployEsbTask(taskId);
         }
     }
 }

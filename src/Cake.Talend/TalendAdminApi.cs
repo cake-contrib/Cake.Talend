@@ -174,6 +174,67 @@ namespace Cake.Talend {
                 .FirstOrDefault(x => x.label.Equals(esbTaskName, StringComparison.InvariantCultureIgnoreCase));
         }
 
+        /// <summary>
+        /// Starts an ESB task.
+        /// </summary>
+        /// <param name="taskId"></param>
+        public void StartEsbTask(int taskId) {
+            var command = new Models.ApiCommandRequestTaskId {
+                authPass = _password,
+                authUser = _username,
+                actionName = TalendAdminApiCommands.START_ESB_TASK,
+                taskId = taskId
+            };
+
+            var data = ExecuteCommand<Models.TalendApiResponseTaskId>(command);
+        }
+
+        /// <summary>
+        /// Stops an ESB task.
+        /// </summary>
+        /// <param name="taskId"></param>
+        public void StopEsbTask(int taskId) {
+            var command = new Models.ApiCommandRequestTaskId {
+                authPass = _password,
+                authUser = _username,
+                actionName = TalendAdminApiCommands.STOP_ESB_TASK,
+                taskId = taskId
+            };
+
+            var data = ExecuteCommand<Models.TalendApiResponseTaskId>(command);
+        }
+
+        /// <summary>
+        /// Deploys an ESB task.
+        /// </summary>
+        /// <param name="taskId"></param>
+        public void DeployEsbTask(int taskId) {
+            var command = new Models.ApiCommandRequestTaskId {
+                authPass = _password,
+                authUser = _username,
+                actionName = TalendAdminApiCommands.REQUEST_DEPLOY_ESB_TASK,
+                taskId = taskId
+            };
+
+            var data = ExecuteCommand<Models.TalendApiResponseTaskId>(command);
+        }
+        
+        /// <summary>
+        /// Undeploys an ESB task.
+        /// </summary>
+        /// <param name="taskId"></param>
+        public void UndeployEsbTask(int taskId) {
+            var command = new Models.ApiCommandRequestTaskId {
+                authPass = _password,
+                authUser = _username,
+                actionName = TalendAdminApiCommands.REQUEST_UNDEPLOY_ESB_TASK,
+                taskId = taskId
+            };
+
+            var data = ExecuteCommand<Models.TalendApiResponseTaskId>(command);
+        }
+
+
         private Models.ApiCommandRequestUpdateEsbTask CreateEsbUpdateRequest(Models.UpdateEsbTaskSettings updateSettings, Models.EsbTask esbTask) {
             var repositoryName = string.IsNullOrWhiteSpace(updateSettings.Repository) ? esbTask.repositoryName : updateSettings.Repository;
             var repositoryType = RepositoryEnumExtensions.Parse(repositoryName);

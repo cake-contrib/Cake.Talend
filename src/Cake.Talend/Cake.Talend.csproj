@@ -58,6 +58,7 @@
     <Compile Include="CommandLine\Runner.cs" />
     <Compile Include="Models\ApiCommandRequest.cs" />
     <Compile Include="Models\ApiCommandRequestGetTaskIdByName.cs" />
+    <Compile Include="Models\ApiCommandRequestTaskId.cs" />
     <Compile Include="Models\ApiCommandRequestUpdateEsbTask.cs" />
     <Compile Include="Models\EsbTask.cs" />
     <Compile Include="Models\PublishJobSettings.cs" />
