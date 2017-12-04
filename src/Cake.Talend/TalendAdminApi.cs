@@ -108,7 +108,7 @@ namespace Cake.Talend {
             var command = new Models.ApiCommandRequest {
                 authPass = _password,
                 authUser = _username,
-                actionName = TalendAdminApiCommands.LIST_TASKS
+                actionName = TalendAdminApiCommands.LIST_ESB_TASKS
             };
 
             var data = ExecuteCommand<Models.TalendApiListResponse<Models.EsbTask>>(command);
