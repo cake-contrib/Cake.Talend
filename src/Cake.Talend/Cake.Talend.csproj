@@ -62,6 +62,7 @@
     <Compile Include="Models\PublishRouteSettings.cs" />
     <Compile Include="Models\Server.cs" />
     <Compile Include="Models\TalendApiListResponse.cs" />
+    <Compile Include="Models\TalendApiListResponseRaw.cs" />
     <Compile Include="Models\TalendApiResponse.cs" />
     <Compile Include="Models\TalendApiResponseTaskId.cs" />
     <Compile Include="Models\Task.cs" />

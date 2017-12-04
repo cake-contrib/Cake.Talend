@@ -10,5 +10,29 @@ namespace Cake.Talend {
         /// </summary>
         /// <returns></returns>
         IEnumerable<Models.Server> GetServerList();
+
+        /// <summary>
+        /// Lists all tasks on this API.
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<Models.Task> GetTaskList();
+
+        /// <summary>
+        /// Lists all ESB tasks on this API.
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<Models.EsbTask> GetEsbTaskList();
+
+        /// <summary>
+        /// Gets the ID of a task from its name.
+        /// </summary>
+        /// <returns></returns>
+        int GetTaskIdByName(string taskName);
+
+        /// <summary>
+        /// Gets the ID of a task from its name.
+        /// </summary>
+        /// <returns></returns>
+        int GetEsbTaskIdByName(string esbTaskName);
     }
 }

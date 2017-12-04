@@ -91,7 +91,7 @@ namespace Cake.Talend {
                 actionName = TalendAdminApiCommands.LIST_TASKS
             };
 
-            var data = ExecuteCommand<Models.TalendApiListResponse<Models.Task>>(command);
+            var data = ExecuteCommand<Models.TalendApiListResponseRaw<Models.Task>>(command);
 
             if (data.ReturnCode != 0) {
                 throw new Exception("Failed to list Tasks: " + data.Error);
