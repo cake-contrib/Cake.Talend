@@ -182,6 +182,10 @@ namespace Cake.Talend {
             var featureVersion = $"{versionID}{snapshotString}";
             var contextName = string.IsNullOrWhiteSpace(updateSettings.ContextName) ? esbTask.contextName : updateSettings.ContextName;
             var cleanFeatureName = string.IsNullOrWhiteSpace(updateSettings.FeatureName) ? esbTask.applicationName.Replace("-feature", String.Empty) : updateSettings.FeatureName;
+                        
+            var mvnUrl = esbTask.applicationFeatureURL.Replace("mvn:", String.Empty);
+            var originalGroupID = mvnUrl.Substring(0, mvnUrl.IndexOf('/'));
+            var groupID = string.IsNullOrWhiteSpace(updateSettings.JobGroup) ? originalGroupID : updateSettings.JobGroup;
 
             return new Models.ApiCommandRequestUpdateEsbTask {
                 authPass = _password,
@@ -190,7 +194,7 @@ namespace Cake.Talend {
 
                 description = updateSettings.Description ?? cleanFeatureName,
                 featureName = $"{cleanFeatureName}-feature",
-                featureUrl = $"mvn:{updateSettings.JobGroup}/{cleanFeatureName}-feature/{featureVersion}/xml",
+                featureUrl = $"mvn:{groupID}/{cleanFeatureName}-feature/{featureVersion}/xml",
                 featureType = esbTask.applicationType,
                 repository = repositoryName,
                 featureVersion = featureVersion,
