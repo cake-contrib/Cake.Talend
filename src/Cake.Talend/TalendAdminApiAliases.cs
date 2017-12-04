@@ -76,5 +76,20 @@ namespace Cake.Talend {
             var api = new TalendAdminApi(settings.TalendAdminAddress, settings.TalendAdminUsername, settings.TalendAdminPassword);
             return api.GetEsbTaskIdByName(esbTaskName);
         }
+
+
+        /// <summary>
+        /// Updates an ESB task.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="esbTaskSettings"></param>
+        /// <param name="settings"></param>
+        /// <returns></returns>
+        [CakeMethodAlias]
+        [CakeAliasCategory("UpdateEsbTask")]
+        public static void UpdateEsbTask(this ICakeContext context, Models.UpdateEsbTaskSettings esbTaskSettings, TalendAdminApiSettings settings) {
+            var api = new TalendAdminApi(settings.TalendAdminAddress, settings.TalendAdminUsername, settings.TalendAdminPassword);
+            api.UpdateEsbTask(esbTaskSettings);
+        }
     }
 }

@@ -34,5 +34,11 @@ namespace Cake.Talend {
         /// </summary>
         /// <returns></returns>
         int GetEsbTaskIdByName(string esbTaskName);
+
+        /// <summary>
+        /// Updates an ESB task with the given information.
+        /// </summary>
+        /// <param name="request"></param>
+        void UpdateEsbTask(Models.UpdateEsbTaskSettings request);
     }
 }

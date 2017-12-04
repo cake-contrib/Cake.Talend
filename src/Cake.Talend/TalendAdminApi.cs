@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Cake.Talend {
     /// <summary>
@@ -160,6 +161,69 @@ namespace Cake.Talend {
             }
 
             return data.taskId;
+        }
+
+        /// <summary>
+        /// Gets the first ESB Task to match the name.
+        /// </summary>
+        /// <param name="esbTaskName"></param>
+        /// <returns></returns>
+        private Models.EsbTask GetEsbTaskByName(string esbTaskName) {
+            return 
+                GetEsbTaskList()
+                .FirstOrDefault(x => x.label.Equals(esbTaskName, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        private Models.ApiCommandRequestUpdateEsbTask CreateEsbUpdateRequest(Models.UpdateEsbTaskSettings updateSettings, Models.EsbTask esbTask) {
+            var repositoryName = string.IsNullOrWhiteSpace(updateSettings.Repository) ? esbTask.repositoryName : updateSettings.Repository;
+            var repositoryType = RepositoryEnumExtensions.Parse(repositoryName);
+            var snapshotString = (repositoryType == RepositoryEnum.Snapshots) ? "-SNAPSHOT" : String.Empty;
+            var versionID = string.IsNullOrWhiteSpace(updateSettings.VersionID) ? esbTask.applicationVersion.Replace("-SNAPSHOT", String.Empty) : updateSettings.VersionID;
+            var featureVersion = $"{versionID}{snapshotString}";
+            var contextName = string.IsNullOrWhiteSpace(updateSettings.ContextName) ? esbTask.contextName : updateSettings.ContextName;
+            var cleanFeatureName = string.IsNullOrWhiteSpace(updateSettings.FeatureName) ? esbTask.applicationName.Replace("-feature", String.Empty) : updateSettings.FeatureName;
+
+            return new Models.ApiCommandRequestUpdateEsbTask {
+                authPass = _password,
+                authUser = _username,
+                actionName = TalendAdminApiCommands.UPDATE_ESB_TASK,
+
+                description = updateSettings.Description ?? cleanFeatureName,
+                featureName = $"{cleanFeatureName}-feature",
+                featureUrl = $"mvn:{updateSettings.JobGroup}/{cleanFeatureName}-feature/{featureVersion}/xml",
+                featureType = esbTask.applicationType,
+                repository = repositoryName,
+                featureVersion = featureVersion,
+                runtimeContext = contextName,
+                runtimePropertyId = esbTask.pid,
+                runtimeServerName = esbTask.jobServerLabelHost,
+                taskId = updateSettings.EsbTaskID ?? esbTask.id,
+                taskName = cleanFeatureName
+            };
+        }
+
+        /// <summary>
+        /// Updates an ESB task with the given information.
+        /// </summary>
+        /// <param name="request"></param>
+        public void UpdateEsbTask(Models.UpdateEsbTaskSettings request) {
+            if (string.IsNullOrWhiteSpace(request.EsbTaskName)) {
+                throw new ArgumentNullException(nameof(request.EsbTaskName));
+            }
+
+            var taskDetails = GetEsbTaskByName(request.EsbTaskName);
+            if (taskDetails == null) {
+                throw new ArgumentException($"Unable to find task {request.EsbTaskName}.");
+            }
+
+            var command = CreateEsbUpdateRequest(request, taskDetails);
+
+            var data = ExecuteCommand<Models.TalendApiResponseTaskId>(command);
+
+            if (data.ReturnCode != 0) {
+                throw new Exception($"Failed to update task {request.EsbTaskName}: " + data.Error);
+            }
+
         }
     }
 }
