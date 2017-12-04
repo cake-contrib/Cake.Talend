@@ -36,7 +36,6 @@ namespace Cake.Talend {
             _password = talendAdminPassword;
         }
 
-
         private string GetMetaservletCommand(object item) {
             var serializer = new RestSharp.Serializers.JsonSerializer();
             var serialized = serializer.Serialize(item);
@@ -49,11 +48,11 @@ namespace Cake.Talend {
         /// <typeparam name="T"></typeparam>
         /// <param name="command"></param>
         /// <returns></returns>
-        private Models.TalendApiResponse<T> ExecuteCommand<T>(object command) where T : new() {
+        private T ExecuteCommand<T>(object command) where T : new() {
             var encodedCommand = GetMetaservletCommand(command);
 
             var request = new RestRequest($"metaServlet?{encodedCommand}", Method.GET);
-            var response = _restClient.Execute<Models.TalendApiResponse<T>>(request);
+            var response = _restClient.Execute<T>(request);
             if (response.ErrorException != null) {
                 throw new Exception("Error when calling API: " + response.ErrorMessage);
             }
@@ -72,7 +71,7 @@ namespace Cake.Talend {
                 actionName = TalendAdminApiCommands.LIST_SERVERS
             };
 
-            var data = ExecuteCommand<List<Models.Server>>(command);
+            var data = ExecuteCommand<Models.TalendApiListResponse<Models.Server>>(command);
 
             if (data.ReturnCode != 0) {
                 throw new Exception("Failed to list servers: " + data.Error);
@@ -80,7 +79,6 @@ namespace Cake.Talend {
 
             return data.Results;
         }
-
 
         /// <summary>
         /// Lists all tasks on this API.
@@ -93,13 +91,75 @@ namespace Cake.Talend {
                 actionName = TalendAdminApiCommands.LIST_TASKS
             };
 
-            var data = ExecuteCommand<List<Models.Task>>(command);
+            var data = ExecuteCommand<Models.TalendApiListResponse<Models.Task>>(command);
 
             if (data.ReturnCode != 0) {
-                throw new Exception("Failed to list servers: " + data.Error);
+                throw new Exception("Failed to list Tasks: " + data.Error);
             }
 
             return data.Results;
+        }
+
+        /// <summary>
+        /// Lists all ESB tasks on this API.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Models.EsbTask> GetEsbTaskList() {
+            var command = new Models.ApiCommandRequest {
+                authPass = _password,
+                authUser = _username,
+                actionName = TalendAdminApiCommands.LIST_TASKS
+            };
+
+            var data = ExecuteCommand<Models.TalendApiListResponse<Models.EsbTask>>(command);
+
+            if (data.ReturnCode != 0) {
+                throw new Exception("Failed to list ESB Tasks: " + data.Error);
+            }
+
+            return data.Results;
+        }
+        
+        /// <summary>
+        /// Gets the ID of a task from its name.
+        /// </summary>
+        /// <returns></returns>
+        public int GetTaskIdByName(string taskName) {
+            var command = new Models.ApiCommandRequestGetTaskIdByName {
+                authPass = _password,
+                authUser = _username,
+                actionName = TalendAdminApiCommands.GET_TASK_ID_BY_NAME,
+                taskName = taskName
+            };
+
+            var data = ExecuteCommand<Models.TalendApiResponseTaskId>(command);
+
+            if (data.ReturnCode != 0) {
+                throw new Exception("Failed to get Task ID: " + data.Error);
+            }
+
+            return data.taskId;
+        }
+
+        /// <summary>
+        /// Gets the ID of a task from its name.
+        /// </summary>
+        /// <returns></returns>
+        public int GetEsbTaskIdByName(string esbTaskName) {
+            var command = new Models.ApiCommandRequestGetTaskIdByName {
+                authPass = _password,
+                authUser = _username,
+                actionName = TalendAdminApiCommands.GET_ESB_TASK_ID_BY_NAME,
+                taskName = esbTaskName
+            };
+
+            var data = ExecuteCommand<Models.TalendApiResponseTaskId>(command);
+
+            if (data.ReturnCode != 0) {
+                throw new Exception("Failed to get ESB Task ID: " + data.Error);
+            }
+
+            return data.taskId;
         }
     }
 }

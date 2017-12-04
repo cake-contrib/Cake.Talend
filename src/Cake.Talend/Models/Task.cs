@@ -1,6 +1,6 @@
 ﻿namespace Cake.Talend.Models {
     /// <summary>
-    /// Describes a server as returned by the Talend API.
+    /// Describes a task as returned by the Talend API.
     /// </summary>
     public class Task {
 #pragma warning disable 1591

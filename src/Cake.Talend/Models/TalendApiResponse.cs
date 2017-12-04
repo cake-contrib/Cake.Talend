@@ -7,13 +7,12 @@ namespace Cake.Talend.Models {
         public int seconds { get; set; }
     }
 
-
-    public class TalendApiResponse<T> {
+    /// <summary>
+    /// The base class from which all Talend API calls inherit.
+    /// </summary>
+    public class TalendApiResponse {
         [DeserializeAs(Name = "executionTime")]
         public Executiontime ExecutionTime { get; set; }
-
-        [DeserializeAs(Name = "result")]
-        public T Results { get; set; }
 
         [DeserializeAs(Name = "returnCode")]
         public int ReturnCode { get; set; }

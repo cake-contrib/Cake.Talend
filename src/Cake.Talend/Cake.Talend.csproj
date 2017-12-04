@@ -56,10 +56,14 @@
     <Compile Include="ITalendAdminApi.cs" />
     <Compile Include="CommandLine\Runner.cs" />
     <Compile Include="Models\ApiCommandRequest.cs" />
+    <Compile Include="Models\ApiCommandRequestGetTaskIdByName.cs" />
+    <Compile Include="Models\EsbTask.cs" />
     <Compile Include="Models\PublishJobSettings.cs" />
     <Compile Include="Models\PublishRouteSettings.cs" />
     <Compile Include="Models\Server.cs" />
+    <Compile Include="Models\TalendApiListResponse.cs" />
     <Compile Include="Models\TalendApiResponse.cs" />
+    <Compile Include="Models\TalendApiResponseTaskId.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="TalendAdminApiAliases.cs" />
     <Compile Include="TalendAdminApiCommands.cs" />
