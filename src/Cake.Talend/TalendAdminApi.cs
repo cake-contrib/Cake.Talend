@@ -81,6 +81,25 @@ namespace Cake.Talend {
             return data.Results;
         }
 
-        
+
+        /// <summary>
+        /// Lists all tasks on this API.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Models.Task> GetTaskList() {
+            var command = new Models.ApiCommandRequest {
+                authPass = _password,
+                authUser = _username,
+                actionName = TalendAdminApiCommands.LIST_TASKS
+            };
+
+            var data = ExecuteCommand<List<Models.Task>>(command);
+
+            if (data.ReturnCode != 0) {
+                throw new Exception("Failed to list servers: " + data.Error);
+            }
+
+            return data.Results;
+        }
     }
 }

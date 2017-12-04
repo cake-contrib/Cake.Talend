@@ -60,9 +60,9 @@
     <Compile Include="Models\PublishRouteSettings.cs" />
     <Compile Include="Models\Server.cs" />
     <Compile Include="Models\TalendApiResponse.cs" />
+    <Compile Include="Models\Task.cs" />
     <Compile Include="TalendAdminApiAliases.cs" />
     <Compile Include="TalendAdminApiCommands.cs" />
-    <Compile Include="Models\ListServerApiResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TalendAdminApi.cs" />
     <Compile Include="TalendAdminApiSettings.cs" />
