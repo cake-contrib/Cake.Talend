@@ -150,6 +150,7 @@ namespace Cake.Talend.Tests {
             fixture.ArtifactRepositoryUsername = "admin";
             fixture.ArtifactRepositoryPassword = "password";
             fixture.Settings.User = "test@test.com";
+            fixture.IsStandalone = true;
 
             // When
             var result = fixture.Run();
@@ -176,7 +177,7 @@ namespace Cake.Talend.Tests {
             var result = fixture.Run();
 
             // Then
-            result.Args.ShouldContain("initLocal;logonProject -pn Test1 -ul test@test.com;publishJob job42 --group org.example -r http://localhost:8081/nexus/content/repositories/snapshots/ -u admin -p password -s -jc Default -pv 0.5.1 -t standalone -a job42");
+            result.Args.ShouldContain("initLocal;logonProject -pn Test1 -ul test@test.com;publishJob job42 --group org.example -r http://localhost:8081/nexus/content/repositories/snapshots/ -u admin -p password -s -jc Default -pv 0.5.1 -a job42");
         }
 
 

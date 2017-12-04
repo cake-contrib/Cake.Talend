@@ -64,18 +64,19 @@ namespace Cake.Talend.CommandLine {
         /// <param name="jobName">The Talend job name.</param>
         /// <param name="jobGroup">Example: org.rsc</param>
         /// <param name="isSnapshot">True if snapshot</param>
+        /// <param name="isStandalone">True if standalone job.</param>
         /// <param name="jobContext">If exist, publish with this context.</param>
         /// <param name="publishVersion">if exist, publish with this version.</param>
         /// <param name="artifactRepositoryUrl">Example: http://localhost:8081/nexus/content/repositories/snapshots/ </param>
         /// <param name="artifactRepositoryUsername">Example: admin</param>
         /// <param name="artifactRepositoryPassword">Example: password</param>
         /// <param name="settings">The settings.</param>
-        public void PublishJob(string projectName, string jobName, string jobGroup, bool isSnapshot, string jobContext, string publishVersion, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
+        public void PublishJob(string projectName, string jobName, string jobGroup, bool isSnapshot, bool isStandalone, string jobContext, string publishVersion, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
             CommonNullCheck(projectName, settings);
             CommongJobNullCheck(jobName);
             CommonPublishNullCheck(jobGroup, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword);
 
-            Run(settings, GetPublishJobArguments(projectName, jobName, jobGroup, isSnapshot, jobContext, publishVersion, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword, settings));
+            Run(settings, GetPublishJobArguments(projectName, jobName, jobGroup, isSnapshot, isStandalone, jobContext, publishVersion, artifactRepositoryUrl, artifactRepositoryUsername, artifactRepositoryPassword, settings));
         }
 
 
@@ -168,13 +169,14 @@ namespace Cake.Talend.CommandLine {
             return baseArguments;
         }
 
-        private ProcessArgumentBuilder GetPublishJobArguments(string projectName, string jobName, string jobGroup, bool isSnapshot, string jobContext, string publishVersion, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
+        private ProcessArgumentBuilder GetPublishJobArguments(string projectName, string jobName, string jobGroup, bool isSnapshot, bool isStandalone, string jobContext, string publishVersion, string artifactRepositoryUrl, string artifactRepositoryUsername, string artifactRepositoryPassword, TalendCommandLineSettings settings) {
             var baseArguments = GetBaseArguments();
             var snapshotString = isSnapshot ? "-s " : String.Empty;
             var contextString = string.IsNullOrWhiteSpace(jobContext) ? String.Empty : $"-jc {jobContext} ";
             var publishVersionString = string.IsNullOrWhiteSpace(publishVersion) ? String.Empty : $"-pv {publishVersion} ";
+            var standaloneString = isStandalone ? "-t standalone " : String.Empty;
 
-            var commandString = CreateProjectCommandString(projectName, $"publishJob {jobName} --group {jobGroup} -r {artifactRepositoryUrl} -u {artifactRepositoryUsername} -p {artifactRepositoryPassword} {snapshotString}{contextString}{publishVersionString}-t standalone -a {jobName}" , settings);
+            var commandString = CreateProjectCommandString(projectName, $"publishJob {jobName} --group {jobGroup} -r {artifactRepositoryUrl} -u {artifactRepositoryUsername} -p {artifactRepositoryPassword} {snapshotString}{contextString}{publishVersionString}{standaloneString}-a {jobName}" , settings);
             baseArguments.AppendQuoted(commandString);
             return baseArguments;
         }
