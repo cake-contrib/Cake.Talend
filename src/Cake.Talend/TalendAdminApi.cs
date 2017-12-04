@@ -49,11 +49,11 @@ namespace Cake.Talend {
         /// <typeparam name="T"></typeparam>
         /// <param name="command"></param>
         /// <returns></returns>
-        private T ExecuteCommand<T>(object command) where T : new() {
+        private Models.TalendApiResponse<T> ExecuteCommand<T>(object command) where T : new() {
             var encodedCommand = GetMetaservletCommand(command);
 
             var request = new RestRequest($"metaServlet?{encodedCommand}", Method.GET);
-            var response = _restClient.Execute<T>(request);
+            var response = _restClient.Execute<Models.TalendApiResponse<T>>(request);
             if (response.ErrorException != null) {
                 throw new Exception("Error when calling API: " + response.ErrorMessage);
             }
@@ -72,7 +72,7 @@ namespace Cake.Talend {
                 actionName = TalendAdminApiCommands.LIST_SERVERS
             };
 
-            var data = ExecuteCommand<Models.ListServerApiResponse>(command);
+            var data = ExecuteCommand<List<Models.Server>>(command);
 
             if (data.ReturnCode != 0) {
                 throw new Exception("Failed to list servers: " + data.Error);

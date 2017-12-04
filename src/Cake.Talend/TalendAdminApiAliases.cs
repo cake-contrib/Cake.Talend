@@ -18,7 +18,7 @@ namespace Cake.Talend {
         /// <param name="settings"></param>
         /// <returns></returns>
         [CakeMethodAlias]
-        [CakeAliasCategory("ListServers")]
+        [CakeAliasCategory("GetServerList")]
         public static IEnumerable<Models.Server> GetServerList(this ICakeContext context, TalendAdminApiSettings settings) {
             var api = new TalendAdminApi(settings.TalendAdminAddress, settings.TalendAdminUsername, settings.TalendAdminPassword);
             return api.GetServerList();
