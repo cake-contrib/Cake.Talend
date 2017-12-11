@@ -61,6 +61,5 @@ namespace Cake.Talend.Tests {
             // Then
             result.ShouldBeType<ArgumentNullException>().ParamName.ShouldEqual("artifactDestination");
         }
-
     }
 }

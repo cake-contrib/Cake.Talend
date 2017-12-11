@@ -1,6 +1,9 @@
 ﻿namespace Cake.Talend.Models {
-#pragma warning disable 1591
+    /// <summary>
+    /// Describes a server as returned by the Talend API.
+    /// </summary>
     public class Server {
+#pragma warning disable 1591
         public bool active { get; set; }
         public int fileTransferPort { get; set; }
         public string host { get; set; }
@@ -15,6 +18,6 @@
         public bool isRuntimeServer { get; set; }
         public int mgmtRegPort { get; set; }
         public int mgmtServerPort { get; set; }
-    }
 #pragma warning restore 1591
+    }
 }

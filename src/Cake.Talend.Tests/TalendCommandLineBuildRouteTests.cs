@@ -101,7 +101,7 @@ namespace Cake.Talend.Tests {
         }
 
         [Fact]
-        public void Should_Add_BuildJobArguments() {
+        public void Should_Add_BuildRouteArguments() {
             // Given 
             var fixture = new TalendCommandLineBuildRouteFixture();
             fixture.RouteName = "route3";

@@ -140,7 +140,7 @@ namespace Cake.Talend.Tests {
         }
 
         [Fact]
-        public void Should_Add_BuildJobArguments() {
+        public void Should_Add_PublishJobArguments() {
             // Given 
             var fixture = new TalendCommandLinePublishJobFixture();
             fixture.ProjectName = "Test1";
@@ -150,6 +150,7 @@ namespace Cake.Talend.Tests {
             fixture.ArtifactRepositoryUsername = "admin";
             fixture.ArtifactRepositoryPassword = "password";
             fixture.Settings.User = "test@test.com";
+            fixture.IsStandalone = true;
 
             // When
             var result = fixture.Run();
@@ -157,5 +158,28 @@ namespace Cake.Talend.Tests {
             // Then
             result.Args.ShouldContain("initLocal;logonProject -pn Test1 -ul test@test.com;publishJob job42 --group org.example -r http://localhost:8081/nexus/content/repositories/snapshots/ -u admin -p password -s -t standalone -a job42");
         }
+
+        [Fact]
+        public void Should_Add_PublishJobArguments_ContextAndPublishVersion() {
+            // Given 
+            var fixture = new TalendCommandLinePublishJobFixture();
+            fixture.ProjectName = "Test1";
+            fixture.JobName = "job42";
+            fixture.JobGroup = "org.example";
+            fixture.ArtifactRepositoryUrl = "http://localhost:8081/nexus/content/repositories/snapshots/";
+            fixture.ArtifactRepositoryUsername = "admin";
+            fixture.ArtifactRepositoryPassword = "password";
+            fixture.Settings.User = "test@test.com";
+            fixture.JobContext = "Default";
+            fixture.PublishVersion = "0.5.1";
+
+            // When
+            var result = fixture.Run();
+
+            // Then
+            result.Args.ShouldContain("initLocal;logonProject -pn Test1 -ul test@test.com;publishJob job42 --group org.example -r http://localhost:8081/nexus/content/repositories/snapshots/ -u admin -p password -s -jc Default -pv 0.5.1 -a job42");
+        }
+
+
     }
 }
