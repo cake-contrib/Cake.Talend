@@ -13,6 +13,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <copyright>Copyright (c) RadioSystems 2017 - Present</copyright>
     <tags>Cake, Script, Build, Talend, Addin</tags>
+    <contentFiles>
+      <files include="**/Content/*.cake" buildAction="EmbeddedResource" />
+    </contentFiles>
   </metadata>
   <files>
     <file src="Cake.Talend.dll" target="lib\net45" />
