@@ -81,6 +81,9 @@
     <Compile Include="TalendCommandLineTool.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="content\TalendSettings.cake">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

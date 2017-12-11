@@ -1,4 +1,4 @@
-/// <summary>
+﻿/// <summary>
 /// Reads Talend API and Cmd Line settings from environment variables or command line arguments.
 /// </summary>
 public class TalendSettings {
