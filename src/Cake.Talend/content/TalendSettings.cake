@@ -4,8 +4,6 @@
 public class TalendSettings {
     public TalendAdminApiSettings ApiSettings { get; private set; }
     public TalendCommandLineSettings CmdLineSettings { get; private set; }
-    public bool IsDevelopBranch { get; private set; }
-    public bool IsMasterBranch { get; private set; }    
     public string ArtifactRepositoryUrl { get; private set; }
     public string ArtifactRepositoryUsername { get; private set; }
     public string ArtifactRepositoryPassword { get; private set; }
@@ -23,10 +21,12 @@ public class TalendSettings {
     }
     public string JobContext { 
         get {
-            return IsMasterBranch ? "Prod" : (IsDevelopBranch ? "Test" : "Local");
+            return isProduction ? "Prod" : "Test";
         }
      }
     private ICakeContext Context { get; set; }
+    private bool IsProduction { get; set; }
+    private string EnvironmentSuffix { get; set; }
 
     /// <summary>
     /// Creates a Nexus Artifact Repository string from the base address and if it is a snapshot or not.
@@ -36,28 +36,31 @@ public class TalendSettings {
     }
 
     /// <summary>
+    /// Attempts to get a command line argument, then falls back on environment variable with suffix.
+    /// </summary>
+    private static string GetArgumentOrEnvironmentVariable(ICakeContext context, string environmentSuffix, string argument, string? defaultValue) {
+        return context.Argument(argument, context.EnvironmentVariable(String.Format("{0}_{1}", argument, environmentSuffix)) ?? defaultValue );
+    }
+
+    /// <summary>
     /// Reads all the environment variables and assigns sane defaults.
     /// </summary>
-    public static TalendSettings GetSettings(ICakeContext context) {
+    public static TalendSettings GetSettings(ICakeContext context, bool isProduction, string environmentSuffix) {
         if(context == null) {
             throw new ArgumentNullException(nameof(context));
         }
-        
-        // Git settings
-        var gitBranch = context.Argument("Git_Branch", context.EnvironmentVariable("Git_Branch") ?? "local");
-        var isDevelopBranch = (gitBranch == "develop");
-        var isMasterBranch = (gitBranch == "master");
+        environmentSuffix = String.IsNullOrWhitespace(environmentSuffix) ? String.Empty : environmentSuffix;
 
         // Talend API settings
-        var talendAdminUsername = context.Argument("talend_admin_username", context.EnvironmentVariable("talend_admin_username"));
-        var talendAdminPassword = context.Argument("talend_admin_password", context.EnvironmentVariable("talend_admin_password"));
-        var talendAdminAddress = context.Argument("talend_admin_address", context.EnvironmentVariable("talend_admin_address"));
-        var talendStudioPath = context.Argument("talend_studio_path", context.EnvironmentVariable("talend_studio_path") ?? "C:/Program Files (x86)/Talend-Studio/studio/Talend-Studio-win-x86_64.exe");
+        var talendAdminUsername = GetArgumentOrEnvironmentVariable(context, environmentSuffix, "TALEND_ADMIN_USERNAME");
+        var talendAdminPassword = GetArgumentOrEnvironmentVariable(context, environmentSuffix, "TALEND_ADMIN_PASSWORD");
+        var talendAdminAddress = GetArgumentOrEnvironmentVariable(context, environmentSuffix, "TALEND_ADMIN_ADDRESS");
+        var talendStudioPath = GetArgumentOrEnvironmentVariable(context, environmentSuffix, "TALEND_STUDIO_PATH", "C:/Program Files (x86)/Talend-Studio/studio/Talend-Studio-win-x86_64.exe");
 
         // Nexus API settings
-        var nexusUsername = context.Argument("nexus_username", context.EnvironmentVariable("nexus_username"));
-        var nexusPassword = context.Argument("nexus_password", context.EnvironmentVariable("nexus_password"));
-        var nexusAddress = context.Argument("nexus_address", context.EnvironmentVariable("nexus_address"));
+        var nexusUsername = GetArgumentOrEnvironmentVariable(context, environmentSuffix, "NEXUS_USERNAME");
+        var nexusPassword = GetArgumentOrEnvironmentVariable(context, environmentSuffix, "NEXUS_PASSWORD");
+        var nexusAddress = GetArgumentOrEnvironmentVariable(context, environmentSuffix, "NEXUS_ADDRESS");
   
         var talendApiSettings = new TalendAdminApiSettings() {
             TalendAdminUsername = talendAdminUsername,
@@ -71,7 +74,7 @@ public class TalendSettings {
         };
 
         // General settings
-        var isSnapshot = !isMasterBranch;
+        var isSnapshot = !isProduction;
         var defaultNexusRepository = GetNexusRepositoryUrl(nexusAddress ?? String.Empty, isSnapshot);
         var defaultJobGroup = "org.rsc";
         var isJobStandalone = true;
@@ -79,8 +82,6 @@ public class TalendSettings {
         return new TalendSettings {
             ApiSettings = talendApiSettings,
             CmdLineSettings = talendCmdLineSettings,
-            IsDevelopBranch = isDevelopBranch,
-            IsMasterBranch = isMasterBranch,
             Context = context,
             IsJobStandalone = isJobStandalone,
             IsSnapshot = isSnapshot,
