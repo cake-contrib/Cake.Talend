@@ -21,7 +21,7 @@ public class TalendSettings {
     }
     public string JobContext { 
         get {
-            return isProduction ? "Prod" : "Test";
+            return this.IsProduction ? "Prod" : "Test";
         }
      }
     private ICakeContext Context { get; set; }
@@ -38,7 +38,7 @@ public class TalendSettings {
     /// <summary>
     /// Attempts to get a command line argument, then falls back on environment variable with suffix.
     /// </summary>
-    private static string GetArgumentOrEnvironmentVariable(ICakeContext context, string environmentSuffix, string argument, string? defaultValue) {
+    private static string GetArgumentOrEnvironmentVariable(ICakeContext context, string environmentSuffix, string argument, string defaultValue = "") {
         return context.Argument(argument, context.EnvironmentVariable(String.Format("{0}_{1}", argument, environmentSuffix)) ?? defaultValue );
     }
 
@@ -49,7 +49,7 @@ public class TalendSettings {
         if(context == null) {
             throw new ArgumentNullException(nameof(context));
         }
-        environmentSuffix = String.IsNullOrWhitespace(environmentSuffix) ? String.Empty : environmentSuffix;
+        environmentSuffix = String.IsNullOrWhiteSpace(environmentSuffix) ? String.Empty : environmentSuffix;
 
         // Talend API settings
         var talendAdminUsername = GetArgumentOrEnvironmentVariable(context, environmentSuffix, "TALEND_ADMIN_USERNAME");
