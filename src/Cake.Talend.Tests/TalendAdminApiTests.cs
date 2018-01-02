@@ -6,6 +6,22 @@ using System.Linq;
 
 namespace Cake.Talend.Tests {
     public class TalendAdminApiTests {
+        private static T DeserializeMetaservletCommand<T>(string metaservletText) {
+            var data = System.Convert.FromBase64String(metaservletText);
+            var decodeString = System.Text.Encoding.UTF8.GetString(data);
+            var deserializer = new RestSharp.Deserializers.JsonDeserializer();
+            var response = new RestResponse<T>();
+            response.Content = decodeString;
+            return deserializer.Deserialize<T>(response);
+        }
+
+        private static string GetMetaservletCommand(object item) {
+            var serializer = new RestSharp.Serializers.JsonSerializer();
+            var serialized = serializer.Serialize(item);
+            return System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(serialized));
+        }
+
+
         private readonly TalendAdminApiSettings _settings = new TalendAdminApiSettings {
             TalendAdminPassword = "admin",
             TalendAdminUsername = "admin@company.com",
@@ -62,8 +78,16 @@ namespace Cake.Talend.Tests {
             var response = Substitute.For < RestResponse<Models.TalendApiListResponse<Models.Server> > >();
             response.Data = serverList;
 
+            var apiCommand = new Models.ApiCommandRequest {
+                authPass = _settings.TalendAdminPassword,
+                authUser = _settings.TalendAdminUsername,
+                actionName = TalendAdminApiCommands.LIST_SERVERS
+            };
+            var encodedApiCommand = GetMetaservletCommand(apiCommand);
+
             var restClient = Substitute.For<IRestClient>();
-            restClient.Execute<Models.TalendApiListResponse<Models.Server>>(Arg.Any<IRestRequest>()).Returns(response);
+            restClient.Execute<Models.TalendApiListResponse<Models.Server>>(
+                Arg.Do<RestRequest>(x => x.Resource.ShouldEqual($"metaServlet?{encodedApiCommand}"))).Returns(response);
 
             // WHEN
             ITalendAdminApi api = new TalendAdminApi(_settings.TalendAdminAddress, _settings.TalendAdminUsername, _settings.TalendAdminPassword, restClient);

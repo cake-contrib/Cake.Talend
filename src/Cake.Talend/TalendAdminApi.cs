@@ -22,7 +22,8 @@ namespace Cake.Talend {
         /// <param name="talendAdminAddress"></param>
         /// <param name="talendAdminUsername"></param>
         /// <param name="talendAdminPassword"></param>
-        public TalendAdminApi(string talendAdminAddress, string talendAdminUsername, string talendAdminPassword): this(talendAdminAddress, talendAdminUsername, talendAdminPassword, new RestClient(talendAdminAddress)) {
+        public TalendAdminApi(string talendAdminAddress, string talendAdminUsername, string talendAdminPassword)
+            : this(talendAdminAddress, talendAdminUsername, talendAdminPassword, new RestClient(talendAdminAddress)) {
         }
 #pragma warning restore RCS1041 // Remove empty initializer.
 
