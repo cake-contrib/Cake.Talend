@@ -118,5 +118,32 @@ namespace Cake.Talend.Tests {
             Assert.Throws<System.Exception>(() => api.GetServerList());
         }
 
+        [Fact]
+        public void TestGetServerListThrowsExceptionIfNoResponse() {
+            // GIVEN
+            var response = Substitute.For<RestResponse<Models.TalendApiListResponse<Models.Server>>>();
+            response.ErrorException = new System.Exception("ERROR");
+
+
+            var restClient = Substitute.For<IRestClient>();
+            restClient.Execute<Models.TalendApiListResponse<Models.Server>>(Arg.Any<RestRequest>()).Returns(response);
+
+            // WHEN & THEN
+            ITalendAdminApi api = new TalendAdminApi(_settings.TalendAdminAddress, _settings.TalendAdminUsername, _settings.TalendAdminPassword, restClient);
+
+            Assert.Throws<System.Exception>(() => api.GetServerList());
+        }
+
+
+        [Fact]
+        public void TestApiShouldThrowNullExceptions() {
+
+            // WHEN & THEN
+            Assert.Throws<System.ArgumentNullException>(() => new TalendAdminApi(_settings.TalendAdminAddress, _settings.TalendAdminUsername, _settings.TalendAdminPassword, null));
+            Assert.Throws<System.ArgumentNullException>(() => new TalendAdminApi(_settings.TalendAdminAddress, _settings.TalendAdminUsername, null, null));
+            Assert.Throws<System.ArgumentNullException>(() => new TalendAdminApi(_settings.TalendAdminAddress, null, null, null));
+            Assert.Throws<System.ArgumentNullException>(() => new TalendAdminApi(null, null, null, null));
+        }
+
     }
 }

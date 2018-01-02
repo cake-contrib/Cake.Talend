@@ -44,6 +44,9 @@ namespace Cake.Talend {
             if (string.IsNullOrWhiteSpace(talendAdminPassword)) {
                 throw new ArgumentNullException(nameof(talendAdminPassword));
             }
+            if (restClient == null) {
+                throw new ArgumentNullException(nameof(restClient));
+            }
 
             _address = talendAdminAddress.TrimEnd(new[] { '/' });
             _username = talendAdminUsername;
