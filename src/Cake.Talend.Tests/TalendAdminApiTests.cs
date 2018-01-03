@@ -63,6 +63,7 @@ namespace Cake.Talend.Tests {
             Assert.Throws<System.ArgumentNullException>(() => new TalendAdminApi(_settings.TalendAdminAddress, _settings.TalendAdminUsername, null, null));
             Assert.Throws<System.ArgumentNullException>(() => new TalendAdminApi(_settings.TalendAdminAddress, null, null, null));
             Assert.Throws<System.ArgumentNullException>(() => new TalendAdminApi(null, null, null, null));
+            Assert.Throws<System.ArgumentNullException>(() => new TalendAdminApi(null, null, null));
         }
 
         [Fact]
@@ -97,7 +98,15 @@ namespace Cake.Talend.Tests {
                         host ="localhost",
                         label = "test-server",
                         port = 20,
-                        useSSL = true
+                        useSSL = true,
+                        adminConsolePort = 8000,
+                        fileTransferPort = 8001,
+                        instance = "instance 2",
+                        isRuntimeServer = true,
+                        mgmtRegPort = 8002,
+                        mgmtServerPort = 8003,
+                        monitoringPort = 8004,
+                        timeOutUnknownState = 30
                     }
                 }
             };
@@ -189,7 +198,29 @@ namespace Cake.Talend.Tests {
                         lastEndedRunDate = "1/1/1999",
                         lastRunDate = "first",
                         lastScriptGenerationDate = "1/12/2011",
-                        lastTaskTraceError = "errored somewhere"
+                        lastTaskTraceError = "errored somewhere",
+                        latestVersion = "0.2",
+                        log4jLevel = "WARN",
+                        nextFireDate = "05/05/2022",
+                        onlineStatus = "online",
+                        onUnknownStateJob = "unknown",
+                        originType = "origin",
+                        pid = "123",
+                        processingState = "BLOCKED",
+                        projectId = "42",
+                        projectName = "project one",
+                        regenerateJobOnChange = "regenerate",
+                        remaingTimeForNextFire = "10 minutes",
+                        repositoryName = "repo2",
+                        runAsUser = "sa",
+                        snapshot = "true",
+                        status = "active",
+                        svnConnectionAvailable = "false",
+                        svnRevision = "0.1.5.2",
+                        taskType = "ESB",
+                        timeOut = "5 minutes",
+                        triggersStatus = "status",
+                        virtualServerLabel = "virtual label"
                     }
                 }
             };
@@ -246,7 +277,16 @@ namespace Cake.Talend.Tests {
                 },
                 Results = new System.Collections.Generic.List<Models.EsbTask> {
                     new Models.EsbTask {
-                        label = "test-task"
+                        label = "test-task",
+                        applicationFeatureURL = "feature 2",
+                        applicationName = "application 35",
+                        applicationType = "type 45",
+                        applicationVersion = "version 0.54",
+                        contextName = "default",
+                        id = 42,
+                        jobServerLabelHost = "test-label",
+                        pid = "102",
+                        repositoryName = "repository 12"
                     }
                 }
             };
@@ -292,7 +332,7 @@ namespace Cake.Talend.Tests {
         }
 
         [Fact]
-        public void TestGetEsbTaskListIdByName() {
+        public void TestGetEsbTaskIdByName() {
             // GIVEN
             var taskIdResponse = new Models.TalendApiResponseTaskId {
                 ReturnCode = 0,
@@ -326,7 +366,7 @@ namespace Cake.Talend.Tests {
         }
 
         [Fact]
-        public void TestGetTaskIdByNameFailsIfInvalid() {
+        public void TestGetEsbTaskIdByNameFailsIfInvalid() {
             // GIVEN
             var taskIdResponse = new Models.TalendApiResponseTaskId {
                 ReturnCode = 5
@@ -341,6 +381,150 @@ namespace Cake.Talend.Tests {
             ITalendAdminApi api = new TalendAdminApi(_settings.TalendAdminAddress, _settings.TalendAdminUsername, _settings.TalendAdminPassword, restClient);
 
             Assert.Throws<System.Exception>(() => api.GetEsbTaskIdByName("one"));
+        }
+
+        [Fact]
+        public void TestGetTaskIdByName() {
+            // GIVEN
+            var taskIdResponse = new Models.TalendApiResponseTaskId {
+                ReturnCode = 0,
+                ExecutionTime = new Models.TalendApiResponse.Executiontime {
+                    millis = 500,
+                    seconds = 2
+                },
+                taskId = 50
+            };
+            var response = Substitute.For<RestResponse<Models.TalendApiResponseTaskId>>();
+            response.Data = taskIdResponse;
+
+            var apiCommand = new Models.ApiCommandRequestGetTaskIdByName {
+                authPass = _settings.TalendAdminPassword,
+                authUser = _settings.TalendAdminUsername,
+                actionName = TalendAdminApiCommands.GET_TASK_ID_BY_NAME,
+                taskName = "one"
+            };
+            var encodedApiCommand = GetMetaservletCommand(apiCommand);
+
+            var restClient = Substitute.For<IRestClient>();
+            restClient.Execute<Models.TalendApiResponseTaskId>(
+                Arg.Do<RestRequest>(x => x.Resource.ShouldEqual($"metaServlet?{encodedApiCommand}"))).Returns(response);
+
+            // WHEN
+            ITalendAdminApi api = new TalendAdminApi(_settings.TalendAdminAddress, _settings.TalendAdminUsername, _settings.TalendAdminPassword, restClient);
+            var taskID = api.GetTaskIdByName("one");
+
+            // THEN
+            taskID.ShouldEqual(50);
+        }
+
+        [Fact]
+        public void TestGetTaskIdByNameFailsIfInvalid() {
+            // GIVEN
+            var taskIdResponse = new Models.TalendApiResponseTaskId {
+                ReturnCode = 5
+            };
+            var response = Substitute.For<RestResponse<Models.TalendApiResponseTaskId>>();
+            response.Data = taskIdResponse;
+
+            var restClient = Substitute.For<IRestClient>();
+            restClient.Execute<Models.TalendApiResponseTaskId>(Arg.Any<RestRequest>()).Returns(response);
+
+            // WHEN & THEN
+            ITalendAdminApi api = new TalendAdminApi(_settings.TalendAdminAddress, _settings.TalendAdminUsername, _settings.TalendAdminPassword, restClient);
+
+            Assert.Throws<System.Exception>(() => api.GetTaskIdByName("one"));
+        }
+
+        [Fact]
+        public void TestStartEsbTaskDoesntThrow() {
+            // GIVEN
+            var apiCommand = new Models.ApiCommandRequestTaskId {
+                authPass = _settings.TalendAdminPassword,
+                authUser = _settings.TalendAdminUsername,
+                actionName = TalendAdminApiCommands.START_ESB_TASK,
+                taskId = 42
+            };
+            var encodedApiCommand = GetMetaservletCommand(apiCommand);
+
+            var restClient = Substitute.For<IRestClient>();
+            restClient.Execute<Models.TalendApiResponseTaskId>(
+                Arg.Do<RestRequest>(x => x.Resource.ShouldEqual($"metaServlet?{encodedApiCommand}")));
+
+            // WHEN
+            ITalendAdminApi api = new TalendAdminApi(_settings.TalendAdminAddress, _settings.TalendAdminUsername, _settings.TalendAdminPassword, restClient);
+
+            // THEN
+            api.StartEsbTask(42);
+            restClient.Execute<Models.TalendApiResponseTaskId>(Arg.Any<IRestRequest>()).Received();
+        }
+
+        [Fact]
+        public void TestStopEsbTaskDoesntThrow() {
+            // GIVEN
+            var apiCommand = new Models.ApiCommandRequestTaskId {
+                authPass = _settings.TalendAdminPassword,
+                authUser = _settings.TalendAdminUsername,
+                actionName = TalendAdminApiCommands.STOP_ESB_TASK,
+                taskId = 42
+            };
+            var encodedApiCommand = GetMetaservletCommand(apiCommand);
+
+            var restClient = Substitute.For<IRestClient>();
+            restClient.Execute<Models.TalendApiResponseTaskId>(
+                Arg.Do<RestRequest>(x => x.Resource.ShouldEqual($"metaServlet?{encodedApiCommand}")));
+
+            // WHEN
+            ITalendAdminApi api = new TalendAdminApi(_settings.TalendAdminAddress, _settings.TalendAdminUsername, _settings.TalendAdminPassword, restClient);
+
+            // THEN
+            api.StopEsbTask(42);
+            restClient.Execute<Models.TalendApiResponseTaskId>(Arg.Any<IRestRequest>()).Received();
+        }
+
+        [Fact]
+        public void TestDeployEsbTaskDoesntThrow() {
+            // GIVEN
+            var apiCommand = new Models.ApiCommandRequestTaskId {
+                authPass = _settings.TalendAdminPassword,
+                authUser = _settings.TalendAdminUsername,
+                actionName = TalendAdminApiCommands.REQUEST_DEPLOY_ESB_TASK,
+                taskId = 42
+            };
+            var encodedApiCommand = GetMetaservletCommand(apiCommand);
+
+            var restClient = Substitute.For<IRestClient>();
+            restClient.Execute<Models.TalendApiResponseTaskId>(
+                Arg.Do<RestRequest>(x => x.Resource.ShouldEqual($"metaServlet?{encodedApiCommand}")));
+
+            // WHEN
+            ITalendAdminApi api = new TalendAdminApi(_settings.TalendAdminAddress, _settings.TalendAdminUsername, _settings.TalendAdminPassword, restClient);
+
+            // THEN
+            api.DeployEsbTask(42);
+            restClient.Execute<Models.TalendApiResponseTaskId>(Arg.Any<IRestRequest>()).Received();
+        }
+
+        [Fact]
+        public void TestUndeployEsbTaskDoesntThrow() {
+            // GIVEN
+            var apiCommand = new Models.ApiCommandRequestTaskId {
+                authPass = _settings.TalendAdminPassword,
+                authUser = _settings.TalendAdminUsername,
+                actionName = TalendAdminApiCommands.REQUEST_UNDEPLOY_ESB_TASK,
+                taskId = 42
+            };
+            var encodedApiCommand = GetMetaservletCommand(apiCommand);
+
+            var restClient = Substitute.For<IRestClient>();
+            restClient.Execute<Models.TalendApiResponseTaskId>(
+                Arg.Do<RestRequest>(x => x.Resource.ShouldEqual($"metaServlet?{encodedApiCommand}")));
+
+            // WHEN
+            ITalendAdminApi api = new TalendAdminApi(_settings.TalendAdminAddress, _settings.TalendAdminUsername, _settings.TalendAdminPassword, restClient);
+
+            // THEN
+            api.UndeployEsbTask(42);
+            restClient.Execute<Models.TalendApiResponseTaskId>(Arg.Any<IRestRequest>()).Received();
         }
     }
 }
