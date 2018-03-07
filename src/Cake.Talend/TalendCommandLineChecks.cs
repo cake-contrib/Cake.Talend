@@ -19,7 +19,7 @@ namespace Cake.Talend {
 
             WriteWorkspaceStateFile(workspaceDirectory, projectName);
 
-            _metadataLogFile = workspaceDirectory.GetFilePath("./metadata/.log");
+            _metadataLogFile = workspaceDirectory.GetFilePath("metadata/.log");
             if (System.IO.File.Exists(_metadataLogFile.FullPath)) {
                 System.IO.File.Delete(_metadataLogFile.FullPath);
             }
