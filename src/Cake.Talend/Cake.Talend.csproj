@@ -77,6 +77,7 @@
     <Compile Include="TalendAdminApi.cs" />
     <Compile Include="TalendAdminApiSettings.cs" />
     <Compile Include="TalendCommandLineAliases.cs" />
+    <Compile Include="TalendCommandLineChecks.cs" />
     <Compile Include="TalendCommandLineSettings.cs" />
     <Compile Include="TalendCommandLineTool.cs" />
   </ItemGroup>

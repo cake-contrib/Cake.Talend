@@ -67,24 +67,27 @@ namespace Cake.Talend {
         public static void PublishJob(this ICakeContext context, Models.PublishJobSettings jobSettings, TalendCommandLineSettings settings) {
             CommonNullCheck(context, settings);
 
-            if(jobSettings == null) {
+            if (jobSettings == null) {
                 throw new ArgumentNullException(nameof(jobSettings));
             }
 
             var runner = new CommandLine.Runner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
 
-            runner.PublishJob(
-                jobSettings.ProjectName,
-                jobSettings.JobName,
-                jobSettings.JobGroup,
-                jobSettings.IsSnapshot ?? true,
-                jobSettings.IsStandalone ?? false,
-                jobSettings.Context,
-                jobSettings.PublishVersion,
-                jobSettings.ArtifactRepositoryUrl,
-                jobSettings.ArtifactRepositoryUsername,
-                jobSettings.ArtifactRepositoryPassword,
-                settings);
+            using (var check = new TalendCommandLineChecks(context.FileSystem, settings.WorkingDirectory, jobSettings.ProjectName, context.Log)) {
+
+                runner.PublishJob(
+                    jobSettings.ProjectName,
+                    jobSettings.JobName,
+                    jobSettings.JobGroup,
+                    jobSettings.IsSnapshot ?? true,
+                    jobSettings.IsStandalone ?? false,
+                    jobSettings.Context,
+                    jobSettings.PublishVersion,
+                    jobSettings.ArtifactRepositoryUrl,
+                    jobSettings.ArtifactRepositoryUsername,
+                    jobSettings.ArtifactRepositoryPassword,
+                    settings);
+            }
         }
 
         /// <summary>
@@ -105,19 +108,22 @@ namespace Cake.Talend {
 
             var runner = new CommandLine.Runner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
 
-            foreach(var job in jobSettings) {
-                runner.PublishJob(
-                    job.ProjectName ?? commonJobSettings.ProjectName,
-                    job.JobName ?? commonJobSettings.JobName,
-                    job.JobGroup ?? commonJobSettings.JobGroup,
-                    job.IsSnapshot ?? commonJobSettings.IsSnapshot ?? true,
-                    job.IsStandalone ?? commonJobSettings.IsStandalone ?? false,
-                    job.Context ?? commonJobSettings.Context,
-                    job.PublishVersion ?? commonJobSettings.PublishVersion,
-                    job.ArtifactRepositoryUrl ?? commonJobSettings.ArtifactRepositoryUrl,
-                    job.ArtifactRepositoryUsername ?? commonJobSettings.ArtifactRepositoryUsername,
-                    job.ArtifactRepositoryPassword ?? commonJobSettings.ArtifactRepositoryPassword,
-                    settings);
+            foreach (var job in jobSettings) {
+                using (var check = new TalendCommandLineChecks(context.FileSystem, settings.WorkingDirectory, job.ProjectName ?? commonJobSettings.ProjectName, context.Log)) {
+
+                    runner.PublishJob(
+                        job.ProjectName ?? commonJobSettings.ProjectName,
+                        job.JobName ?? commonJobSettings.JobName,
+                        job.JobGroup ?? commonJobSettings.JobGroup,
+                        job.IsSnapshot ?? commonJobSettings.IsSnapshot ?? true,
+                        job.IsStandalone ?? commonJobSettings.IsStandalone ?? false,
+                        job.Context ?? commonJobSettings.Context,
+                        job.PublishVersion ?? commonJobSettings.PublishVersion,
+                        job.ArtifactRepositoryUrl ?? commonJobSettings.ArtifactRepositoryUrl,
+                        job.ArtifactRepositoryUsername ?? commonJobSettings.ArtifactRepositoryUsername,
+                        job.ArtifactRepositoryPassword ?? commonJobSettings.ArtifactRepositoryPassword,
+                        settings);
+                }
             }
         }
 
