@@ -5,7 +5,7 @@ namespace Cake.Talend.Models {
     /// <summary>
     /// The base class from which all Talend API commands inherit.
     /// </summary>
-    internal class ApiCommandRequest {
+    public class ApiCommandRequest {
 #pragma warning disable 1591
         public string authUser { get; set; }
         

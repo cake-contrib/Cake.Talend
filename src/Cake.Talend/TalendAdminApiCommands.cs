@@ -1,5 +1,9 @@
 ﻿namespace Cake.Talend {
-    internal static class TalendAdminApiCommands {
+    /// <summary>
+    /// Lists all commands available to Talend Admin API
+    /// </summary>
+    public static class TalendAdminApiCommands {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public const string LIST_SERVERS = "listServer";
         public const string LIST_TASKS = "getTasksRelatedToJobs";
         public const string LIST_ESB_TASKS = "listEsbTasks";
@@ -10,5 +14,6 @@
         public const string STOP_ESB_TASK = "stopEsbTask";
         public const string REQUEST_DEPLOY_ESB_TASK = "requestDeployEsbTask";
         public const string REQUEST_UNDEPLOY_ESB_TASK = "requestUndeployEsbTask";
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }

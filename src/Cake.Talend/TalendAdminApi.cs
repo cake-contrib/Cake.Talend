@@ -14,13 +14,27 @@ namespace Cake.Talend {
         private readonly string _username;
         private readonly string _password;
 
+
+#pragma warning disable RCS1041 // Remove empty initializer.
         /// <summary>
         /// Initializes a new instance of the <see cref="TalendAdminApi"/> class.
         /// </summary>
         /// <param name="talendAdminAddress"></param>
         /// <param name="talendAdminUsername"></param>
         /// <param name="talendAdminPassword"></param>
-        public TalendAdminApi(string talendAdminAddress, string talendAdminUsername, string talendAdminPassword) {
+        public TalendAdminApi(string talendAdminAddress, string talendAdminUsername, string talendAdminPassword)
+            : this(talendAdminAddress, talendAdminUsername, talendAdminPassword, new RestClient(talendAdminAddress)) {
+        }
+#pragma warning restore RCS1041 // Remove empty initializer.
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TalendAdminApi"/> class.
+        /// </summary>
+        /// <param name="talendAdminAddress"></param>
+        /// <param name="talendAdminUsername"></param>
+        /// <param name="talendAdminPassword"></param>
+        /// <param name="restClient">RestSharp RestClient</param>
+        public TalendAdminApi(string talendAdminAddress, string talendAdminUsername, string talendAdminPassword, IRestClient restClient) {
             if(string.IsNullOrWhiteSpace(talendAdminAddress)) {
                 throw new ArgumentNullException(nameof(talendAdminAddress));
             }
@@ -30,11 +44,14 @@ namespace Cake.Talend {
             if (string.IsNullOrWhiteSpace(talendAdminPassword)) {
                 throw new ArgumentNullException(nameof(talendAdminPassword));
             }
+            if (restClient == null) {
+                throw new ArgumentNullException(nameof(restClient));
+            }
 
             _address = talendAdminAddress.TrimEnd(new[] { '/' });
-            _restClient = new RestClient(_address);
             _username = talendAdminUsername;
             _password = talendAdminPassword;
+            _restClient = restClient;
         }
 
         private string GetMetaservletCommand(object item) {
