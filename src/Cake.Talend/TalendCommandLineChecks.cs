@@ -5,16 +5,12 @@ using System.Linq;
 
 namespace Cake.Talend {
     internal class TalendCommandLineChecks : System.IDisposable {
-        private readonly IFileSystem _fileSystem;
-        private readonly DirectoryPath _workspaceDirectory;
         private readonly string _originalFileText;
         private readonly FilePath _workspaceProperties;
         private readonly FilePath _metadataLogFile;
 
-        public TalendCommandLineChecks(IFileSystem fileSystem, DirectoryPath workspaceDirectory, string projectName, ICakeLog log) {
-            _fileSystem = fileSystem;
+        public TalendCommandLineChecks(DirectoryPath workspaceDirectory, string projectName, ICakeLog log) {
             _log = log;
-            _workspaceDirectory = workspaceDirectory;
             _workspaceProperties = workspaceDirectory.GetFilePath(".metadata/.plugins/org.eclipse.m2e.core/workspacestate.properties");
 
             if (System.IO.File.Exists(_workspaceProperties.FullPath)) {

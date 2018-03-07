@@ -73,7 +73,7 @@ namespace Cake.Talend {
 
             var runner = new CommandLine.Runner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
 
-            using (var check = new TalendCommandLineChecks(context.FileSystem, settings.WorkingDirectory, jobSettings.ProjectName, context.Log)) {
+            using (var check = new TalendCommandLineChecks(settings.Workspace ?? context.Environment.WorkingDirectory, jobSettings.ProjectName, context.Log)) {
 
                 runner.PublishJob(
                     jobSettings.ProjectName,
@@ -109,7 +109,7 @@ namespace Cake.Talend {
             var runner = new CommandLine.Runner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
 
             foreach (var job in jobSettings) {
-                using (var check = new TalendCommandLineChecks(context.FileSystem, settings.WorkingDirectory, job.ProjectName ?? commonJobSettings.ProjectName, context.Log)) {
+                using (var check = new TalendCommandLineChecks(settings.Workspace ?? context.Environment.WorkingDirectory, job.ProjectName ?? commonJobSettings.ProjectName, context.Log)) {
 
                     runner.PublishJob(
                         job.ProjectName ?? commonJobSettings.ProjectName,
