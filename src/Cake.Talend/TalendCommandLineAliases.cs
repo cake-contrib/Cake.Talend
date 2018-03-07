@@ -143,17 +143,19 @@ namespace Cake.Talend {
             }
 
             var runner = new CommandLine.Runner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
+            using (var check = new TalendCommandLineChecks(settings.Workspace ?? context.Environment.WorkingDirectory, routeSettings.ProjectName, context.Log)) {
 
-            runner.PublishRoute(
-                routeSettings.ProjectName,
-                routeSettings.RouteName,
-                routeSettings.RouteGroup,
-                routeSettings.IsSnapshot ?? true,
-                routeSettings.PublishVersion,
-                routeSettings.ArtifactRepositoryUrl,
-                routeSettings.ArtifactRepositoryUsername,
-                routeSettings.ArtifactRepositoryPassword,
-                settings);
+                runner.PublishRoute(
+                    routeSettings.ProjectName,
+                    routeSettings.RouteName,
+                    routeSettings.RouteGroup,
+                    routeSettings.IsSnapshot ?? true,
+                    routeSettings.PublishVersion,
+                    routeSettings.ArtifactRepositoryUrl,
+                    routeSettings.ArtifactRepositoryUsername,
+                    routeSettings.ArtifactRepositoryPassword,
+                    settings);
+            }
         }
 
         /// <summary>
@@ -175,16 +177,18 @@ namespace Cake.Talend {
             var runner = new CommandLine.Runner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
 
             foreach (var route in routeSettings) {
-                runner.PublishRoute(
-                    route.ProjectName ?? commonRouteSettings.ProjectName,
-                    route.RouteName ?? commonRouteSettings.RouteName,
-                    route.RouteGroup ?? commonRouteSettings.RouteGroup,
-                    route.IsSnapshot ?? commonRouteSettings.IsSnapshot ?? true,
-                    route.PublishVersion ?? commonRouteSettings.PublishVersion,
-                    route.ArtifactRepositoryUrl ?? commonRouteSettings.ArtifactRepositoryUrl,
-                    route.ArtifactRepositoryUsername ?? commonRouteSettings.ArtifactRepositoryUsername,
-                    route.ArtifactRepositoryPassword ?? commonRouteSettings.ArtifactRepositoryPassword,
-                    settings);
+                using (var check = new TalendCommandLineChecks(settings.Workspace ?? context.Environment.WorkingDirectory, route.ProjectName ?? commonRouteSettings.ProjectName, context.Log)) {
+                    runner.PublishRoute(
+                        route.ProjectName ?? commonRouteSettings.ProjectName,
+                        route.RouteName ?? commonRouteSettings.RouteName,
+                        route.RouteGroup ?? commonRouteSettings.RouteGroup,
+                        route.IsSnapshot ?? commonRouteSettings.IsSnapshot ?? true,
+                        route.PublishVersion ?? commonRouteSettings.PublishVersion,
+                        route.ArtifactRepositoryUrl ?? commonRouteSettings.ArtifactRepositoryUrl,
+                        route.ArtifactRepositoryUsername ?? commonRouteSettings.ArtifactRepositoryUsername,
+                        route.ArtifactRepositoryPassword ?? commonRouteSettings.ArtifactRepositoryPassword,
+                        settings);
+                }
             }
         }
     }
