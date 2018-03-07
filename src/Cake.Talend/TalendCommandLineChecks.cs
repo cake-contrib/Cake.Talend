@@ -11,7 +11,7 @@ namespace Cake.Talend {
 
         public TalendCommandLineChecks(DirectoryPath workspaceDirectory, string projectName, ICakeLog log) {
             _log = log;
-            _workspaceProperties = workspaceDirectory.GetFilePath(".metadata/.plugins/org.eclipse.m2e.core/workspacestate.properties");
+            _workspaceProperties = workspaceDirectory.CombineWithFilePath(".metadata/.plugins/org.eclipse.m2e.core/workspacestate.properties");
 
             if (System.IO.File.Exists(_workspaceProperties.FullPath)) {
                 _originalFileText = System.IO.File.ReadAllText(_workspaceProperties.FullPath);
@@ -19,15 +19,15 @@ namespace Cake.Talend {
 
             WriteWorkspaceStateFile(workspaceDirectory, projectName);
 
-            _metadataLogFile = workspaceDirectory.GetFilePath("metadata/.log");
+            _metadataLogFile = workspaceDirectory.CombineWithFilePath("metadata/.log");
             if (System.IO.File.Exists(_metadataLogFile.FullPath)) {
                 System.IO.File.Delete(_metadataLogFile.FullPath);
             }
         }
 
         private void WriteWorkspaceStateFile(DirectoryPath workspaceDirectory, string projectName) {
-            var projectPOM = workspaceDirectory.GetFilePath($"{projectName}/pom.xml");
-            var javaPOM = workspaceDirectory.GetFilePath(".Java/pom.xml");
+            var projectPOM = workspaceDirectory.CombineWithFilePath($"{projectName}/pom.xml");
+            var javaPOM = workspaceDirectory.CombineWithFilePath(".Java/pom.xml");
 
             var talendWorkspaceFiles = new string[] {
                 $"YOUR_GROUP\\:{projectName.Trim().ToUpper()}\\:pom\\:\\:SNAPSHOT=" + projectPOM.ToString().Replace(@"/", @"\\").Replace(":", @"\:"),
