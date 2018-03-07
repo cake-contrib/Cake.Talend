@@ -19,7 +19,7 @@ namespace Cake.Talend {
 
             WriteWorkspaceStateFile(workspaceDirectory, projectName);
 
-            _metadataLogFile = workspaceDirectory.CombineWithFilePath("metadata/.log");
+            _metadataLogFile = workspaceDirectory.CombineWithFilePath(".metadata/.log");
             if (System.IO.File.Exists(_metadataLogFile.FullPath)) {
                 System.IO.File.Delete(_metadataLogFile.FullPath);
             }
@@ -38,20 +38,24 @@ namespace Cake.Talend {
         }
 
         private void CheckLogFileAndThrowIfError() {
-            var logFileLines = System.IO.File.ReadAllLines(_metadataLogFile.FullPath);
+            try {
+                var logFileLines = System.IO.File.ReadAllLines(_metadataLogFile.FullPath);
 
-            if (logFileLines.Any(x => x.StartsWith("!MESSAGE FAILED"))) {
-                foreach (var line in logFileLines) {
-                    _log.Error(line);
+                if (logFileLines.Any(x => x.StartsWith("!MESSAGE FAILED"))) {
+                    foreach (var line in logFileLines) {
+                        _log.Error(line);
+                    }
+
+                    throw new System.Exception("Talend Failure");
+
+                } else {
+
+                    foreach (var line in logFileLines) {
+                        _log.Information(line);
+                    }
                 }
-
-                throw new System.Exception("Talend Failure");
-
-            } else {
-
-                foreach (var line in logFileLines) {
-                    _log.Information(line);
-                }
+            } catch (System.IO.FileNotFoundException e) {
+                throw new System.Exception($"Can't find Talend Log File at path \"{_metadataLogFile.FullPath}\". Did it succeed? {e}", e);
             }
         }
 
