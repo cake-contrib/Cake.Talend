@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿#addin nuget:?package=Cake.FileHelpers&version=2.0.0
+
+/// <summary>
 /// Reads Talend API and Cmd Line settings from environment variables or command line arguments.
 /// </summary>
 public class TalendSettings {
@@ -19,7 +21,7 @@ public class TalendSettings {
             this.CmdLineSettings.Workspace = this.Context.MakeAbsolute(value);
         }
     }
-    public string JobContext { 
+    public string JobContext {
         get {
             return this.IsProduction ? "Prod" : "Test";
         }
@@ -61,7 +63,7 @@ public class TalendSettings {
         var nexusUsername = GetArgumentOrEnvironmentVariable(context, environmentSuffix, "NEXUS_USERNAME");
         var nexusPassword = GetArgumentOrEnvironmentVariable(context, environmentSuffix, "NEXUS_PASSWORD");
         var nexusAddress = GetArgumentOrEnvironmentVariable(context, environmentSuffix, "NEXUS_ADDRESS");
-  
+
         var talendApiSettings = new TalendAdminApiSettings() {
             TalendAdminUsername = talendAdminUsername,
             TalendAdminPassword = talendAdminPassword,
@@ -92,10 +94,31 @@ public class TalendSettings {
         };
     }
 
+    private void SetEclipsePaths() {
+        var metadata_path = this.Context.MakeAbsolute(this.WorkspaceDirectory.Combine(".metadata/")).ToString();
+        this.Context.ReplaceRegexInFiles(
+            "*/**/*.item",
+            $"([<]elementParameter field[=][\"]DIRECTORY[\"] name[=][\"]FILE_PATH[\"] value[=][\"])([^\"]*)",
+            $"$1&quot;{metadata_path}&quot;");
+
+        this.Context.ReplaceRegexInFiles(
+            "*/**/talend.project",
+            $"([<]elementParameter xmi[:]id[=][\"][^\"]*[\"] field=[\"]DIRECTORY[\"] name=[\"]FILE_PATH[\"] value=[\"])([^\"]*)",
+            $"$1&quot;{metadata_path}&quot;");
+
+        var metadata_prefs_path = this.Context.MakeAbsolute(this.WorkspaceDirectory.CombineWithFilePath(".metadata/.plugins/org.eclipse.m2e.core/lifecycle-mapping-metadata.xml")).ToString().Replace(":", "\\:");
+        this.Context.ReplaceRegexInFiles(
+            "*/**/org.eclipse.m2e.core.prefs",
+            $"(eclipse.m2.WorkspacelifecycleMappingsLocation)[^\r\n]*",
+            $"$1={metadata_prefs_path}");
+    }
+
     /// <summary>
     /// Publishes all given jobs.
     /// </summary>
     public void PublishJobs(PublishJobSettings[] jobSettings) {
+        SetEclipsePaths();
+
         //Uses these settings unless the individual job has defined overrides.
         var defaultPublishSettings = new PublishJobSettings {
             IsSnapshot = this.IsSnapshot,
@@ -113,7 +136,9 @@ public class TalendSettings {
     /// <summary>
     /// Publishes only one job.
     /// </summary>
-    public void PublishJob(PublishJobSettings jobSetting) {        
+    public void PublishJob(PublishJobSettings jobSetting) {
+        SetEclipsePaths();
+
         this.PublishJobs(new PublishJobSettings[] {
             jobSetting
         });
@@ -123,6 +148,8 @@ public class TalendSettings {
     /// Publishes all given routes.
     /// </summary>
     public void PublishRoutes(PublishRouteSettings[] routeSettings) {
+        SetEclipsePaths();
+
         //Uses these settings unless the individual job has defined overrides.
         var defaultPublishSettings = new PublishRouteSettings {
             IsSnapshot = this.IsSnapshot,
@@ -134,11 +161,13 @@ public class TalendSettings {
 
         this.Context.PublishRoutes(routeSettings, defaultPublishSettings, CmdLineSettings);
     }
-    
+
     /// <summary>
     /// Publishes only one route.
     /// </summary>
-    public void PublishRoute(PublishRouteSettings routeSetting) {        
+    public void PublishRoute(PublishRouteSettings routeSetting) {
+        SetEclipsePaths();
+
         this.PublishRoutes(new PublishRouteSettings[] {
             routeSetting
         });
