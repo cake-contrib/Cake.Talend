@@ -95,19 +95,19 @@ public class TalendSettings {
     }
 
     private void SetEclipsePaths() {
-        var metadata_path = MakeAbsolute(this.WorkspaceDirectory.Combine(".metadata/")).ToString();
-        ReplaceRegexInFiles(
+        var metadata_path = this.Context.MakeAbsolute(this.WorkspaceDirectory.Combine(".metadata/")).ToString();
+        this.Context.ReplaceRegexInFiles(
             "*/**/*.item",
             $"([<]elementParameter field[=][\"]DIRECTORY[\"] name[=][\"]FILE_PATH[\"] value[=][\"])([^\"]*)",
             $"$1&quot;{metadata_path}&quot;");
 
-        ReplaceRegexInFiles(
+        this.Context.ReplaceRegexInFiles(
             "*/**/talend.project",
             $"([<]elementParameter xmi[:]id[=][\"][^\"]*[\"] field=[\"]DIRECTORY[\"] name=[\"]FILE_PATH[\"] value=[\"])([^\"]*)",
             $"$1&quot;{metadata_path}&quot;");
 
-        var metadata_prefs_path = MakeAbsolute(this.WorkspaceDirectory.CombineWithFilePath(".metadata/.plugins/org.eclipse.m2e.core/lifecycle-mapping-metadata.xml")).ToString().Replace(":", "\\:");
-        ReplaceRegexInFiles(
+        var metadata_prefs_path = this.Context.MakeAbsolute(this.WorkspaceDirectory.CombineWithFilePath(".metadata/.plugins/org.eclipse.m2e.core/lifecycle-mapping-metadata.xml")).ToString().Replace(":", "\\:");
+        this.Context.ReplaceRegexInFiles(
             "*/**/org.eclipse.m2e.core.prefs",
             $"(eclipse.m2.WorkspacelifecycleMappingsLocation)[^\r\n]*",
             $"$1={metadata_prefs_path}");
