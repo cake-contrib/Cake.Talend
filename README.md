@@ -6,6 +6,34 @@ Cake addin for working with Talend Studio command line and Talend Admin Center m
 
 If you like or are using this project please give it a star. Thanks!
 
+## Information
+
+| | Stable | Pre-release |
+|---|---|---|
+|GitHub Release|[![GitHub release](https://img.shields.io/github/release/cake-contrib/Cake.Talend.svg)](https://github.com/cake-contrib/Cake.Talend/releases/latest)|[![GitHub release](https://img.shields.io/github/release/cake-contrib/Cake.Talend.svg)](https://github.com/cake-contrib/Cake.Talend/releases/latest)|
+|NuGet|[![NuGet](https://img.shields.io/nuget/v/Cake.Talend.svg)](https://www.nuget.org/packages/Cake.Talend)|[![NuGet](https://img.shields.io/nuget/vpre/Cake.Talend.svg)](https://www.nuget.org/packages/Cake.Talend)|
+
+
+## Build Status
+
+|Develop|Master|
+|:--:|:--:|
+|[![Build status](https://ci.appveyor.com/api/projects/status/b7t333udwup6fjpg/branch/develop?svg=true)](https://ci.appveyor.com/project/cake-contrib/cake-talend/branch/develop)|[![Build status](https://ci.appveyor.com/api/projects/status/b7t333udwup6fjpg/branch/master?svg=true)](https://ci.appveyor.com/project/cake-contrib/cake-talend/branch/master)|
+
+## Code Coverage
+
+![Code Coverage](https://codecov.io/gh/cake-contrib/Cake.Talend/branch/develop/graphs/commits.svg)
+
+## Build
+
+To build this package we are using Cake.
+
+On Windows PowerShell run:
+
+```powershell
+./build
+```
+
 ## Usage
 
 To use the addin just add it to Cake, call the aliases, and configure any settings you want.
